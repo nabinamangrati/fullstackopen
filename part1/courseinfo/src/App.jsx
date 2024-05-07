@@ -8,6 +8,7 @@ const App = () => {
       },
       {
         name: "Using props to pass data",
+
         exercises: 7,
       },
       {
