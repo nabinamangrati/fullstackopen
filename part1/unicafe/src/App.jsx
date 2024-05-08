@@ -34,6 +34,7 @@ const App = () => {
   };
   let average =
     (clicks.good * 1 + clicks.neutral * 0 + clicks.bad * -1) / clicksTotal;
+  let percentage = (clicks.good / clicksTotal) * 100;
 
   return (
     <div>
@@ -41,13 +42,26 @@ const App = () => {
       <button onClick={increaseByOneGood}>good</button>
       <button onClick={increaseByOneNeutral}>neutral</button>
       <button onClick={increaseByOneBad}>bad</button>
-      <h2>statistics</h2>
-      <div>good: {clicks.good}</div>
+      <h2>Statistics</h2>
+      {clicksTotal > 0 ? (
+        <div>
+          <Statistics
+            clicks={clicks}
+            clicksTotal={clicksTotal}
+            average={average}
+            percentage={percentage}
+          />
+        </div>
+      ) : (
+        <p>No feedback yet</p>
+      )}
+      {/* mooving these to statistics component  */}
+      {/* <div>good: {clicks.good}</div>
       <div>neutral: {clicks.neutral}</div>
       <div>bad :{clicks.bad}</div>
       <div>total clicks: {clicksTotal}</div>
       <div>average:{average}</div>
-      <div>percentage: {(clicks.good / clicksTotal) * 100}%</div>
+      <div>percentage: {percentage}%</div> */}
     </div>
   );
 };

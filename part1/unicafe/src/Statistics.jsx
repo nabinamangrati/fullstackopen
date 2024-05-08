@@ -1,4 +1,4 @@
-const Statistics = (props) => {
+const Statistics = ({ clicks, clicksTotal, average, percentage }) => {
   return (
     <div>
       <div>good: {clicks.good}</div>
@@ -6,7 +6,7 @@ const Statistics = (props) => {
       <div>bad :{clicks.bad}</div>
       <div>total clicks: {clicksTotal}</div>
       <div>average:{average}</div>
-      <div>percentage: {(clicks.good / clicksTotal) * 100}%</div>
+      <div>percentage: {percentage}%</div>
     </div>
   );
 };
