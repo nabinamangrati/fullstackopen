@@ -31,21 +31,22 @@ const App = () => {
     setClicks({ good: clicks.good, neutral: clicks.neutral, bad: newBad });
     setTotal(clicks.good + clicks.neutral + newBad);
   };
+  let average =
+    (clicks.good * 1 + clicks.neutral * 0 + clicks.bad * -1) / clicksTotal;
 
   return (
     <div>
-      {/* {clicks.good} */}
       <h2>give feedBack</h2>
       <button onClick={increaseByOneGood}>good</button>
-      {/* {clicks.neutral} */}
       <button onClick={increaseByOneNeutral}>neutral</button>
-      {/* {clicks.bad} */}
       <button onClick={increaseByOneBad}>bad</button>
       <h2>statistics</h2>
       <div>good: {clicks.good}</div>
       <div>neutral: {clicks.neutral}</div>
       <div>bad :{clicks.bad}</div>
       <div>total clicks: {clicksTotal}</div>
+      <div>average:{average}</div>
+      <div>percentage: {(clicks.good / clicksTotal) * 100}%</div>
     </div>
   );
 };
