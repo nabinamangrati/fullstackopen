@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Display from "../Display";
+import Statistics from "./Statistics";
 
 const App = () => {
   let initialState = {
