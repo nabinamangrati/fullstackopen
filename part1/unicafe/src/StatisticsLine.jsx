@@ -1,8 +1,9 @@
 const StatisticsLine = ({ text, value }) => {
   return (
-    <div>
-      {text}:{value}
-    </div>
+    <>
+      <td>{text} </td>
+      <td>{value}</td>
+    </>
   );
 };
 export default StatisticsLine;
