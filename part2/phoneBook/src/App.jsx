@@ -1,8 +1,10 @@
 import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
-  const [numbers, setNumber] = useState([{ number: "1234" }]);
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", number: "1234" },
+  ]);
+
   const [newNumber, setNewNumber] = useState("");
   const [newName, setNewName] = useState("");
 
@@ -12,9 +14,9 @@ const App = () => {
       // Issue a warning if the name already exists
       alert(`${newName} is already added to the phonebook`);
     } else {
-      setPersons([...persons, { name: newName }]);
+      setPersons([...persons, { name: newName, number: newNumber }]);
       setNewName("");
-      setNumber([...numbers, { number: newNumber }]);
+
       setNewNumber("");
     }
   };
@@ -42,7 +44,7 @@ const App = () => {
       <div>
         {persons.map((person, index) => (
           <div key={index}>
-            {person.name} {numbers[index].number}
+            {person.name} {person.number}
           </div>
         ))}
       </div>
