@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import Filter from "./component/Filter";
 import axios from "axios";
+import PersonForm from "./component/PersonForm";
+import Person from "./component/Person";
 const App = () => {
   const [persons, setPersons] = useState([]);
 
@@ -27,14 +29,21 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    let newPerson = {
+      name: newName,
+      number: newNumber,
+    };
     if (persons.some((person) => person.name === newName)) {
       // Issue a warning if the name already exists
       alert(`${newName} is already added to the phonebook`);
     } else {
-      setPersons([...persons, { name: newName, number: newNumber }]);
-      setNewName("");
+      let postAxios = axios.post("http://localhost:3001/persons", newPerson);
+      postAxios.then((response) => {
+        setPersons(persons.concat(response.data));
+        setNewName("");
 
-      setNewNumber("");
+        setNewNumber("");
+      });
     }
   };
   const handleNameChange = (event) => {
@@ -47,34 +56,20 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      filter shown with
       <Filter value={search} onChange={handleSearchChange} />
       <h2>add a new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-          <br />
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button onClick={handleSubmit}>add</button>
-        </div>
-      </form>
+      <PersonForm
+        newName={newName}
+        newNumber={newNumber}
+        handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange}
+        handleSubmit={handleSubmit}
+      />
       <h2>Numbers</h2>
       <div>
-        {/* {persons.map((person, index) => (
-          <div key={index}>
-            {person.name} {person.number}
-          </div>
-        ))}
-        <h2>Filtered Results</h2>
-        <div> */}
-        {filteredPersons.map((person) => (
-          <div key={person.id}>
-            {person.name} {person.number}
-          </div>
-        ))}
+        <Person persons={filteredPersons} />
       </div>
-      {/* </div> */}
     </div>
   );
 };

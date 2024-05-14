@@ -1,9 +1,9 @@
 import React from "react";
-const Person = ({ person }) => {
+const Person = ({ persons }) => {
   return (
     <div>
-      {filteredPersons.map((person) => (
-        <div key={person.id}>
+      {persons.map((person, index) => (
+        <div key={index}>
           {person.name} {person.number}
         </div>
       ))}
