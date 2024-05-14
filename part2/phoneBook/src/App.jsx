@@ -3,6 +3,7 @@ import Filter from "./component/Filter";
 import axios from "axios";
 import PersonForm from "./component/PersonForm";
 import Person from "./component/Person";
+import phoneServices from "./services/phone";
 const App = () => {
   const [persons, setPersons] = useState([]);
 
@@ -11,7 +12,7 @@ const App = () => {
   const [search, setSearch] = useState("");
   useEffect(() => {
     console.log("hello");
-    let myAxiosPromise = axios.get("http://localhost:3001/persons");
+    let myAxiosPromise = phoneServices.getAll();
     myAxiosPromise.then((myResult) => {
       console.log("returned promise");
       console.dir(myResult.data);
@@ -37,7 +38,7 @@ const App = () => {
       // Issue a warning if the name already exists
       alert(`${newName} is already added to the phonebook`);
     } else {
-      let postAxios = axios.post("http://localhost:3001/persons", newPerson);
+      let postAxios = phoneServices.create(newPerson);
       postAxios.then((response) => {
         setPersons(persons.concat(response.data));
         setNewName("");
@@ -51,6 +52,25 @@ const App = () => {
   };
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value);
+  };
+  const updateData = () => {
+    let currentperson = persons.find((person) => {
+      return person.id === id;
+    });
+    let updatedPerson = {
+      id: currentperson.id,
+      name: currentperson.name,
+      number: currentperson.number,
+    };
+    let putAxios = phoneServices.update(id, updatedPerson);
+    putAxios.then((response) => {
+      let updatedPerson = response.data;
+      setPersons(
+        persons.map((person) =>
+          person.id === updatedPerson.id ? updatedPerson : person
+        )
+      );
+    });
   };
 
   return (
@@ -67,9 +87,7 @@ const App = () => {
         handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
-      <div>
-        <Person persons={filteredPersons} />
-      </div>
+      <Person persons={filteredPersons} />
     </div>
   );
 };
