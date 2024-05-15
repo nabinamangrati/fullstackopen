@@ -6,10 +6,10 @@ import Person from "./component/Person";
 import phoneServices from "./services/phone";
 const App = () => {
   const [persons, setPersons] = useState([]);
-
   const [newNumber, setNewNumber] = useState("");
   const [newName, setNewName] = useState("");
   const [search, setSearch] = useState("");
+
   useEffect(() => {
     console.log("hello");
     let myAxiosPromise = phoneServices.getAll();
@@ -47,20 +47,23 @@ const App = () => {
       });
     }
   };
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
+
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value);
   };
+
   const updateData = () => {
-    let currentperson = persons.find((person) => {
+    let currentPerson = persons.find((person) => {
       return person.id === id;
     });
     let updatedPerson = {
-      id: currentperson.id,
-      name: currentperson.name,
-      number: currentperson.number,
+      id: currentPerson.id,
+      name: currentPerson.name,
+      number: currentPerson.number,
     };
     let putAxios = phoneServices.update(id, updatedPerson);
     putAxios.then((response) => {
