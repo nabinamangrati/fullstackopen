@@ -20,8 +20,9 @@ const App = () => {
     });
   }, []);
 
-  const filteredPersons = persons.filter((person) =>
-    person.name.toLowerCase().includes(search.toLowerCase())
+  const filteredPersons = persons.filter(
+    (person) =>
+      person.name && person.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const handleSearchChange = (event) => {
@@ -33,6 +34,7 @@ const App = () => {
     let newPerson = {
       name: newName,
       number: newNumber,
+      id: persons.length + 1,
     };
     if (persons.some((person) => person.name === newName)) {
       // Issue a warning if the name already exists
@@ -56,24 +58,46 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
-  const updateData = () => {
-    let currentPerson = persons.find((person) => {
-      return person.id === id;
+  // const updateData = (id) => {
+  //   let currentPerson = persons.find((person) => {
+  //     return person.id === id;
+  //   });
+  //   let updatedPerson = { ...currentPerson };
+  //   let putAxios = phoneServices.update(id, updatedPerson);
+  //   putAxios.then((response) => {
+  //     console.dir("response");
+  //     let updatedPerson = response.data;
+  //     setPersons(
+  //       persons.map((person) =>
+  //         person.id === updatedPerson.id ? updatedPerson : person
+  //       )
+  //     );
+  //   });
+  // };
+  const deletePerson = (id) => {
+    let deleteAxios = phoneServices.deletePerson(id);
+
+    deleteAxios.then(() => {
+      setPersons(persons.filter((person) => person.id !== id));
     });
-    let updatedPerson = {
-      id: currentPerson.id,
-      name: currentPerson.name,
-      number: currentPerson.number,
-    };
-    let putAxios = phoneServices.update(id, updatedPerson);
-    putAxios.then((response) => {
-      let updatedPerson = response.data;
-      setPersons(
-        persons.map((person) =>
-          person.id === updatedPerson.id ? updatedPerson : person
-        )
-      );
-    });
+  };
+
+  // const handleEdit = (event) => {
+  //   const { name, value } = event.target;
+  //   if (name === "name") {
+  //     setNewName(value);
+  //   } else if (name === "number") {
+  //     setNewNumber(value);
+  //   }
+  // };
+  const handleDelete = (id, name) => {
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete ${name}?`
+    );
+    if (confirmDelete) {
+      deletePerson(id);
+      alert(`${name} has been deleted.`);
+    }
   };
 
   return (
@@ -90,7 +114,12 @@ const App = () => {
         handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
-      <Person persons={filteredPersons} />
+      <Person
+        persons={filteredPersons}
+        // updateData={updateData}
+        // handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 };
