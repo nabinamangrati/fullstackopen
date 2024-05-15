@@ -58,22 +58,26 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
-  // const updateData = (id) => {
-  //   let currentPerson = persons.find((person) => {
-  //     return person.id === id;
-  //   });
-  //   let updatedPerson = { ...currentPerson };
-  //   let putAxios = phoneServices.update(id, updatedPerson);
-  //   putAxios.then((response) => {
-  //     console.dir("response");
-  //     let updatedPerson = response.data;
-  //     setPersons(
-  //       persons.map((person) =>
-  //         person.id === updatedPerson.id ? updatedPerson : person
-  //       )
-  //     );
-  //   });
-  // };
+  const updateData = (id, newName, newNumber) => {
+    // let currentPerson = persons.find((person) => {
+    //   return person.id === id;
+    // });
+    // let updatedPerson = { ...currentPerson };
+    let putAxios = phoneServices.update(id, {
+      id: id,
+      name: newName,
+      number: newNumber,
+    });
+    putAxios.then((response) => {
+      console.dir("response");
+      let updatedPerson = response.data;
+      setPersons(
+        persons.map((person) =>
+          person.id === updatedPerson.id ? updatedPerson : person
+        )
+      );
+    });
+  };
   const deletePerson = (id) => {
     let deleteAxios = phoneServices.deletePerson(id);
 
@@ -82,14 +86,16 @@ const App = () => {
     });
   };
 
-  // const handleEdit = (event) => {
-  //   const { name, value } = event.target;
-  //   if (name === "name") {
-  //     setNewName(value);
-  //   } else if (name === "number") {
-  //     setNewNumber(value);
-  //   }
-  // };
+  const handleEdit = (event) => {
+    const { name, value } = event.target;
+    // const name = event.target.name;
+    // const value =event.target.value;
+    if (name === "name") {
+      setNewName(value);
+    } else if (name === "number") {
+      setNewNumber(value);
+    }
+  };
   const handleDelete = (id, name) => {
     const confirmDelete = window.confirm(
       `Are you sure you want to delete ${name}?`
@@ -115,9 +121,11 @@ const App = () => {
       />
       <h2>Numbers</h2>
       <Person
+        newName={newName}
+        newNumber={newNumber}
         persons={filteredPersons}
-        // updateData={updateData}
-        // handleEdit={handleEdit}
+        updateData={updateData}
+        handleEdit={handleEdit}
         handleDelete={handleDelete}
       />
     </div>
