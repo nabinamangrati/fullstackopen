@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Filter from "./component/Filter";
-import axios from "axios";
+// import axios from "axios";
 import PersonForm from "./component/PersonForm";
 import Person from "./component/Person";
 import phoneServices from "./services/phone";
@@ -34,7 +34,8 @@ const App = () => {
     let newPerson = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
+
+      id: `${persons.length + 1}`,
     };
     if (persons.some((person) => person.name === newName)) {
       // Issue a warning if the name already exists
@@ -43,6 +44,7 @@ const App = () => {
       let postAxios = phoneServices.create(newPerson);
       postAxios.then((response) => {
         setPersons(persons.concat(response.data));
+        console.dir(persons.concat(response.data));
         setNewName("");
 
         setNewNumber("");
