@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
+import "./index.css";
 // let persons = [
 //   { name: "Arto Hellas", number: "040-123456", id: 1 },
 //   { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },

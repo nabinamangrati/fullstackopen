@@ -3,11 +3,13 @@ import Filter from "./component/Filter";
 import PersonForm from "./component/PersonForm";
 import Person from "./component/Person";
 import phoneServices from "./services/phone";
+import Notification from "./component/Notification";
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newNumber, setNewNumber] = useState("");
   const [newName, setNewName] = useState("");
   const [search, setSearch] = useState("");
+  const [notification, setNotification] = useState("");
 
   useEffect(() => {
     console.log("hello");
@@ -32,9 +34,16 @@ const App = () => {
     const existingPerson = persons.find((person) => person.name === newName);
 
     if (existingPerson) {
-      const confirmUpdate = window.confirm(
-        `${newName} is already added to the phonebook. Do you want to update their number?`
-      );
+      const confirmUpdate =
+        //window.confirm(
+        //   `${newName} is already added to the phonebook. Do you want to update their number?`
+        // );
+        setNotification(
+          `${newName} is already added to the phonebook. Do you want to update their number?`
+        );
+      setTimeout(() => {
+        setNotification("");
+      }, 2000);
 
       if (confirmUpdate) {
         const updatedPerson = {
@@ -126,10 +135,14 @@ const App = () => {
       alert(`${name} has been deleted.`);
     }
   };
+  const myStyle = { fontSize: "30px" };
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h2 style={myStyle} className="redcolor">
+        Phonebook
+      </h2>
+      <Notification message={notification} />
       filter shown with
       <Filter value={search} onChange={handleSearchChange} />
       <h2>add a new</h2>

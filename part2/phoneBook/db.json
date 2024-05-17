@@ -3,7 +3,7 @@
     {
       "name": "Arto Hellas",
       "number": "040-123456",
-      "id": 1
+      "id": "1"
     },
     {
       "name": "Ada Lovelace",
@@ -21,9 +21,14 @@
       "id": "4"
     },
     {
-      "id": "6",
+      "id": "5",
       "name": "hii",
-      "number": "55"
+      "number": ""
+    },
+    {
+      "id": "6",
+      "name": "wow",
+      "number": "22"
     }
   ]
 }

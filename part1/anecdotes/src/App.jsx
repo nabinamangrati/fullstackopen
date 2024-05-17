@@ -24,7 +24,6 @@ const App = () => {
     setVotes(newVotes);
   };
   const maxVotes = votes.indexOf(Math.max(...votes));
-
   return (
     <div>
       <div>
