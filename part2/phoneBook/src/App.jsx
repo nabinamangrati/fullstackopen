@@ -34,16 +34,13 @@ const App = () => {
     const existingPerson = persons.find((person) => person.name === newName);
 
     if (existingPerson) {
-      const confirmUpdate =
-        //window.confirm(
-        //   `${newName} is already added to the phonebook. Do you want to update their number?`
-        // );
-        setNotification(
-          `${newName} is already added to the phonebook. Do you want to update their number?`
-        );
+      const confirmUpdate = window.confirm(
+        `${newName} is already added to the phonebook. Do you want to update their number?`
+      );
+      setNotification(`old number of ${newName} is changed to ${newNumber}`);
       setTimeout(() => {
         setNotification("");
-      }, 2000);
+      }, 3000);
 
       if (confirmUpdate) {
         const updatedPerson = {
@@ -78,6 +75,11 @@ const App = () => {
       postAxios.then((response) => {
         setPersons(persons.concat(response.data));
         console.dir(persons.concat(response.data));
+        setNotification(` Added ${newName} `);
+        setTimeout(() => {
+          setNotification("");
+        }, 3000);
+
         setNewName("");
 
         setNewNumber("");
@@ -121,9 +123,20 @@ const App = () => {
   const deletePerson = (id) => {
     let deleteAxios = phoneServices.deletePerson(id);
 
-    deleteAxios.then(() => {
-      setPersons(persons.filter((person) => person.id !== id));
-    });
+    deleteAxios
+      .then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+      })
+      .catch((error) => {
+        console.log(error);
+        setNotification(
+          `Information of ${newName} has already been deleted from the server`
+        );
+      });
+
+    setTimeout(() => {
+      setNotification("");
+    }, 3000);
   };
 
   const handleDelete = (id, name) => {
