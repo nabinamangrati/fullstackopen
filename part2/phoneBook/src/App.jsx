@@ -10,7 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [search, setSearch] = useState("");
   const [notification, setNotification] = useState("");
-
+ 
   useEffect(() => {
     console.log("hello");
     let myAxiosPromise = phoneServices.getAll();
