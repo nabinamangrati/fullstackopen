@@ -22,10 +22,8 @@ let persons = [
     number: "39-23-6423122",
   },
 ];
-
-app.get("/api/persons", (request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify(persons));
+app.get("/api/persons/", (request, response) => {
+  response.json(persons);
 });
 
 const PORT = 3001;
