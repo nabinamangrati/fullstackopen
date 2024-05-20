@@ -30,12 +30,31 @@ app.get("/info", (request, response) => {
   const requestTime = new Date();
   response.send(
     `<p>Phonebook has info for ${count} people</p>
-        <p>${requestTime}</p>
-
-    `
+        <p>${requestTime}</p>`
   );
 });
 
+app.get("/api/persons/:id", (request, response) => {
+  const myId = Number(request.params.id);
+  const myPerson = persons.find((person) => person.id === myId);
+  if (myPerson) {
+    response.json(myPerson);
+  } else {
+    response.status(404).send(`There is no person with ID ${myId}`);
+  }
+});
+app.delete("/api/persons/:id", (request, response) => {
+  const myId = Number(request.params.id);
+  persons = persons.filter((person) => person.id !== myId);
+
+  response.status(204).send(`The person on id ${myId} has been deleted`);
+});
+app.post("/api/persons/:id", (request, response) => {
+  const myNewPost = request.body;
+  myNewPost.id = persons.length + 1;
+  persons.push(myNewPost);
+  response.status(201).json(myNewPost);
+});
 const PORT = 3001;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
