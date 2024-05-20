@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
 let persons = [
   {
     id: 1,
@@ -49,10 +50,13 @@ app.delete("/api/persons/:id", (request, response) => {
 
   response.status(204).send(`The person on id ${myId} has been deleted`);
 });
-app.post("/api/persons/:id", (request, response) => {
+app.post("/api/persons/", (request, response) => {
   const myNewPost = request.body;
-  myNewPost.id = persons.length + 1;
+
+  myNewPost.id = Math.floor(Math.random() * 1000000);
+
   persons.push(myNewPost);
+  console.log(myNewPost);
   response.status(201).json(myNewPost);
 });
 const PORT = 3001;
