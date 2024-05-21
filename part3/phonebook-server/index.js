@@ -57,10 +57,15 @@ app.get("/api/persons/:id", (request, response) => {
   }
 });
 app.delete("/api/persons/:id", (request, response) => {
+  console.log(request, "request.body");
   const myId = Number(request.params.id);
+  console.log(myId, "id");
   persons = persons.filter((person) => person.id !== myId);
+  console.log(persons, "persons");
 
-  response.status(204).send(`The person on id ${myId} has been deleted`);
+  response.status(202).send(`The person on id ${myId} has been deleted`);
+  //204 sends a message in browser and 202 doesnt send the messsge also send and end are different
+  // response.status(204).send(`The person on id ${myId} has been deleted`);
 });
 app.post("/api/persons/", (request, response) => {
   const myNewPost = request.body;
