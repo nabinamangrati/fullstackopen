@@ -58,15 +58,16 @@ app.get("/api/persons/:id", (request, response) => {
   }
 });
 app.delete("/api/persons/:id", (request, response) => {
-  console.log(request, "request.body");
-  const myId = Number(request.params.id);
-  console.log(myId, "id");
-  persons = persons.filter((person) => person.id !== myId);
-  console.log(persons, "persons");
+  Person.findByIdAndDelete(request.params.id).then((result) => {
+    response.status(204).end();
+  });
+  // const myId = Number(request.params.id);
 
-  response.status(202).send(`The person on id ${myId} has been deleted`);
-  //204 sends a message in browser and 202 doesnt send the messsge also send and end are different
-  // response.status(204).send(`The person on id ${myId} has been deleted`);
+  // persons = persons.filter((person) => person.id !== myId);
+
+  // response.status(202).send(`The person on id ${myId} has been deleted`);
+  // //204 sends a message in browser and 202 doesnt send the messsge also send and end are different
+  // // response.status(204).send(`The person on id ${myId} has been deleted`);
 });
 app.post("/api/persons/", (request, response) => {
   const body = request.body;
