@@ -40,12 +40,14 @@ app.get("/api/persons/", (request, response) => {
   });
 });
 app.get("/info", (request, response) => {
-  const count = persons.length;
   const requestTime = new Date();
-  response.send(
-    `<p>Phonebook has info for ${count} people</p>
-        <p>${requestTime}</p>`
-  );
+  Person.find({}).then((persons) => {
+    const count = persons.length;
+    response.send(
+      `<p>Phonebook has info for ${count} people</p>
+          <p>${requestTime}</p>`
+    );
+  });
 });
 
 app.get("/api/persons/:id", (request, response, next) => {
