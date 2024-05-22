@@ -48,14 +48,20 @@ app.get("/info", (request, response) => {
   );
 });
 
-app.get("/api/persons/:id", (request, response) => {
-  const myId = Number(request.params.id);
-  const myPerson = persons.find((person) => person.id === myId);
-  if (myPerson) {
-    response.json(myPerson);
-  } else {
-    response.status(404).send(`There is no person with ID ${myId}`);
-  }
+app.get("/api/persons/:id", (request, response, next) => {
+  Person.findById(request.params.id)
+    .then((myPerson) => {
+      if (myPerson) {
+        response.json(myPerson);
+      } else {
+        response
+          .status(404)
+          .send(`There is no person with ID ${request.params.id}`);
+      }
+    })
+    .catch((e) => {
+      next(e);
+    });
 });
 app.delete("/api/persons/:id", (request, response) => {
   Person.findByIdAndDelete(request.params.id).then((result) => {
@@ -86,6 +92,14 @@ app.post("/api/persons/", (request, response) => {
   });
 });
 
+const errorHandler = (error, request, response, next) => {
+  console.log(error.message);
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+  next(error);
+};
+app.use(errorHandler);
 const PORT = 3001;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
