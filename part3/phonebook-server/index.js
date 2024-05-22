@@ -69,23 +69,22 @@ app.delete("/api/persons/:id", (request, response) => {
   // response.status(204).send(`The person on id ${myId} has been deleted`);
 });
 app.post("/api/persons/", (request, response) => {
-  const myNewPost = request.body;
+  const body = request.body;
 
-  if (!myNewPost.name || !myNewPost.number) {
-    return response.status(400).json({ error: "name or number is missing" });
+  if (body.name === undefined) {
+    return response.status(400).json({ error: "name missing" });
   }
 
-  const nameExists = persons.some((person) => person.name === myNewPost.name);
-  if (nameExists) {
-    return response.status(400).json({ error: "name must be unique" });
-  }
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  });
 
-  myNewPost.id = Math.floor(Math.random() * 1000000);
-
-  persons.push(myNewPost);
-  console.log(myNewPost);
-  response.status(201).json(myNewPost);
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
 });
+
 const PORT = 3001;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
