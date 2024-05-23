@@ -3,8 +3,9 @@ const morgan = require("morgan");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-const url = `mongodb+srv://nabina1:mypassword@cluster0.f3ksog1.mongodb.net/phonebookServer?retryWrites=true&w=majority&appName=Cluster0`;
+const url = process.env.MONGODB_URI;
 mongoose.set("strictQuery", false);
 
 mongoose.connect(url);
@@ -134,6 +135,6 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 app.use(errorHandler);
-const PORT = 3001;
+const PORT = process.env.PORT;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);
