@@ -10,7 +10,11 @@ mongoose.set("strictQuery", false);
 mongoose.connect(url);
 
 const phonebookSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    minLength: 3,
+    required: true,
+  },
   number: Number,
 });
 phonebookSchema.set("toJSON", {
@@ -40,9 +44,9 @@ app.get("/api/persons/", (request, response) => {
   });
 });
 app.get("/info", (request, response) => {
-  const requestTime = new Date();
   Person.find({}).then((persons) => {
     const count = persons.length;
+    const requestTime = new Date();
     response.send(
       `<p>Phonebook has info for ${count} people</p>
           <p>${requestTime}</p>`
@@ -77,21 +81,20 @@ app.delete("/api/persons/:id", (request, response) => {
   // //204 sends a message in browser and 202 doesnt send the messsge also send and end are different
   // // response.status(204).send(`The person on id ${myId} has been deleted`);
 });
-app.post("/api/persons/", (request, response) => {
+app.post("/api/persons/", (request, response, next) => {
   const body = request.body;
-
-  if (body.name === undefined) {
-    return response.status(400).json({ error: "name missing" });
-  }
 
   const person = new Person({
     name: body.name,
     number: body.number,
   });
 
-  person.save().then((savedPerson) => {
-    response.json(savedPerson);
-  });
+  person
+    .save()
+    .then((savedPerson) => {
+      response.json(savedPerson);
+    })
+    .catch((error) => next(error));
 });
 
 app.put("/api/persons/:id", (request, response, next) => {
@@ -111,6 +114,8 @@ const errorHandler = (error, request, response, next) => {
   console.log(error.message);
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
   next(error);
 };
