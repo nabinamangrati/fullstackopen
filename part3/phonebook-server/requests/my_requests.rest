@@ -10,3 +10,11 @@ content-type: application/json
     "name": "sample",
     "number": "222"
 }
+###
+PUT  http://localhost:3001/api/persons/664cdb0dd9bac0c620668125 
+content-type: application/json
+
+{
+    "name": "sa",
+    "number": "222"
+}
