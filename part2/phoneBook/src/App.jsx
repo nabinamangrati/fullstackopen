@@ -10,7 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [search, setSearch] = useState("");
   const [notification, setNotification] = useState("");
- 
+
   useEffect(() => {
     console.log("hello");
     let myAxiosPromise = phoneServices.getAll();
@@ -72,18 +72,25 @@ const App = () => {
       };
 
       let postAxios = phoneServices.create(newPerson);
-      postAxios.then((response) => {
-        setPersons(persons.concat(response.data));
-        console.dir(persons.concat(response.data));
-        setNotification(` Added ${newName} `);
-        setTimeout(() => {
-          setNotification("");
-        }, 3000);
+      postAxios
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          console.dir(persons.concat(response.data));
+          setNotification(` Added ${newName} `);
+          setTimeout(() => {
+            setNotification("");
+          }, 3000);
 
-        setNewName("");
+          setNewName("");
 
-        setNewNumber("");
-      });
+          setNewNumber("");
+        })
+        .catch((error) => {
+          setNotification(error.response.data.error);
+        });
+      setTimeout(() => {
+        setNotification("");
+      }, 3000);
     }
   };
 
@@ -117,7 +124,7 @@ const App = () => {
         }
       })
       .catch((error) => {
-        console.error("Error updating person:", error);
+        setNotification(error.response.data.error);
       });
   };
   const deletePerson = (id) => {
