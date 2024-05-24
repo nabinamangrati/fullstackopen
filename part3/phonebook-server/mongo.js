@@ -3,7 +3,6 @@ if (process.argv.length < 3) {
   console.log("give password ,name,number as arguments");
   process.exit(1);
 }
-const password = process.argv[2];
 
 const url = process.env.MONGODB_URI;
 mongoose.set("strictQuery", false);
@@ -27,7 +26,7 @@ if (process.argv.length === 3) {
   const name = process.argv[3];
   const number = process.argv[4];
   const person = new Person({ name, number });
-  person.save().then((result) => {
+  person.save().then(() => {
     console.log(`added ${name} number ${number} to phonebook`);
     mongoose.connection.close();
   });

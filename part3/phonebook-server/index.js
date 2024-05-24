@@ -49,7 +49,6 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
 
-let persons = [];
 app.get("/api/persons/", (request, response) => {
   Person.find({}).then((persons) => {
     response.json(persons);
@@ -82,7 +81,7 @@ app.get("/api/persons/:id", (request, response, next) => {
     });
 });
 app.delete("/api/persons/:id", (request, response) => {
-  Person.findByIdAndDelete(request.params.id).then((result) => {
+  Person.findByIdAndDelete(request.params.id).then(() => {
     response.status(204).end();
   });
   // const myId = Number(request.params.id);
