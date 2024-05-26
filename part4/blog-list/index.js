@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const blogSchema = new mongoose.Schema({
   title: String,
@@ -9,11 +10,10 @@ const blogSchema = new mongoose.Schema({
   url: String,
   likes: Number,
 });
-
 const Blog = mongoose.model("Blog", blogSchema);
 
-const mongoUrl =
-  "mongodb+srv://nabina:mypassword@cluster0.sssba1v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const mongoUrl = process.env.MONGO_URL;
+console.log(`Connecting to MongoDB at ${mongoUrl}`);
 mongoose.connect(mongoUrl);
 
 app.use(cors());

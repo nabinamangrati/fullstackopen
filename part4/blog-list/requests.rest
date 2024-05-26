@@ -7,6 +7,6 @@ Content-Type: application/json
 {
     "title":"Second Blog",
     "author":"LSharmila",
-    "url":"https://en.wikipedia.org/wiki/One_Piece",
+    "url":"https://en.wikipedia.org/wiki/Naruto",
     "likes":5
 }
