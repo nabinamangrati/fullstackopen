@@ -5,8 +5,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title":"Second Blog",
-    "author":"LSharmila",
-    "url":"https://en.wikipedia.org/wiki/Naruto",
+    "title":"Secons Blog",
+    "author":"Nabina",
+    "url":"https://en.wikipedia.org/wiki/One_Piece",
     "likes":5
 }
