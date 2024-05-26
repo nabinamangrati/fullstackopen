@@ -12,7 +12,8 @@ const blogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model("Blog", blogSchema);
 
-const mongoUrl = "mongodb://localhost/bloglist";
+const mongoUrl =
+  "mongodb+srv://nabina:mypassword@cluster0.sssba1v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 mongoose.connect(mongoUrl);
 
 app.use(cors());
