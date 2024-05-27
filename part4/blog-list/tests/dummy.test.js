@@ -119,4 +119,8 @@ describe("total  and favorite blog", () => {
     const result = listHelper.maxBlogsAuthor(blogs);
     assert.strictEqual(result, "Robert C. Martin");
   });
+  test("returns the max like of the author", () => {
+    const result = listHelper.mostLikes(blogs);
+    assert.strictEqual(result, "Edsger W. Dijkstra");
+  });
 });
