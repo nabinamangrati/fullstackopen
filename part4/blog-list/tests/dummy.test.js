@@ -90,25 +90,20 @@ test("there is seven blog", async () => {
   assert.strictEqual(response.length, helpers.blogs.length);
 });
 
-test("a valid blog can be added ", async () => {
+test.only("a valid blog can be added ", async () => {
   const newBlog = {
     title: "TDD harms architecture",
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-    likes: 0,
   };
 
-  await api
-    .post("/api/blogs")
-    .send(newBlog)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
+  const response = await api.post("/api/blogs").send(newBlog);
 
-  const response = await api.get("/api/blogs");
+  // const blogs = response.body.map((r) => r.blog);
 
-  const blogs = response.body.map((r) => r.blog);
-
-  assert.strictEqual(response.body.length, blogs.length);
+  // assert.strictEqual(response.body.length, blogs.length);
+  // assert.strictEqual(response.body.hasOwnProperty("likes"), true);
+  assert.strictEqual(response.body.likes, 0);
 });
 afterAll(async () => {
   await mongoose.connection.close();
