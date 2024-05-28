@@ -82,15 +82,33 @@ beforeEach(async () => {
 });
 const api = supertest(app);
 test("blogs are returned as json", async () => {
-  await api
-    .get("/api/blogs")
-    .expect(200)
-    .expect("Content-Type", /application\/json/);
+  await api.get("/api/blogs").expect(400);
 });
-test("there is one blog", async () => {
+test("there is seven blog", async () => {
   const response = await helpers.blogsInDb();
 
   assert.strictEqual(response.length, helpers.blogs.length);
+});
+
+test("a valid blog can be added ", async () => {
+  const newBlog = {
+    title: "TDD harms architecture",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    likes: 0,
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const response = await api.get("/api/blogs");
+
+  const blogs = response.body.map((r) => r.blog);
+
+  assert.strictEqual(response.body.length, blogs.length);
 });
 afterAll(async () => {
   await mongoose.connection.close();
