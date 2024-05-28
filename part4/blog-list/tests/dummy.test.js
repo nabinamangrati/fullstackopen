@@ -82,7 +82,7 @@ beforeEach(async () => {
 });
 const api = supertest(app);
 test("blogs are returned as json", async () => {
-  await api.get("/api/blogs").expect(400);
+  await api.get("/api/blogs").expect(200);
 });
 test("there is seven blog", async () => {
   const response = await helpers.blogsInDb();
@@ -107,6 +107,11 @@ test("missing title or url then status to 400", async () => {
     likes: 5,
   };
   const response = await api.post("/api/blogs").send(missed).expect(400);
+});
+test.only("deleting single blog test", async () => {
+  const blogsAtStart = await helpers.blogsInDb();
+  const blogToDelete = blogsAtStart[0];
+  await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
 });
 afterAll(async () => {
   await mongoose.connection.close();

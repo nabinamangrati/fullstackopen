@@ -5,8 +5,10 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title":"Secons Blog",
+    "title":"first Blog",
     "author":"Nabina",
     "url":"https://en.wikipedia.org/wiki/One_Piece",
     "likes":5
 }
+###
+DELETE http://localhost:3003/api/blogs/6656104d37ef33b08ac15897
