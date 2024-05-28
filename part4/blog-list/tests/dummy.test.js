@@ -90,7 +90,7 @@ test("there is seven blog", async () => {
   assert.strictEqual(response.length, helpers.blogs.length);
 });
 
-test.only("a valid blog can be added ", async () => {
+test("if like is missing default to 0 ", async () => {
   const newBlog = {
     title: "TDD harms architecture",
     author: "Robert C. Martin",
@@ -99,11 +99,14 @@ test.only("a valid blog can be added ", async () => {
 
   const response = await api.post("/api/blogs").send(newBlog);
 
-  // const blogs = response.body.map((r) => r.blog);
-
-  // assert.strictEqual(response.body.length, blogs.length);
-  // assert.strictEqual(response.body.hasOwnProperty("likes"), true);
   assert.strictEqual(response.body.likes, 0);
+});
+test("missing title or url then status to 400", async () => {
+  const missed = {
+    author: "Robert C. Martin",
+    likes: 5,
+  };
+  const response = await api.post("/api/blogs").send(missed).expect(400);
 });
 afterAll(async () => {
   await mongoose.connection.close();

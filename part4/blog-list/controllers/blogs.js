@@ -7,6 +7,9 @@ app.get("/", async (request, response) => {
 
 app.post("/", async (request, response, next) => {
   const blog = new Blog(request.body);
+  if (!blog.title || !blog.url) {
+    return response.status(400).json({ error: "title or url is missing" });
+  }
   if (blog.likes === undefined) {
     blog.likes = 0;
   }
