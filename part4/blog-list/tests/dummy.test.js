@@ -21,7 +21,7 @@ describe("total  and favorite blog", () => {
   });
 
   test("finds the blog with the most likes", () => {
-    const result = listHelper.favoriteBlog(blogs);
+    const result = listHelper.favoriteBlog(helpers.blogs);
     const expected = {
       title: "Canonical string reduction",
       author: "Edsger W. Dijkstra",
@@ -64,11 +64,11 @@ describe("total  and favorite blog", () => {
     );
   });
   test("returns the author with the maximum number of blogs", () => {
-    const result = listHelper.maxBlogsAuthor(blogs);
+    const result = listHelper.maxBlogsAuthor(helpers.blogs);
     assert.strictEqual(result, "Robert C. Martin");
   });
   test("returns the max like of the author", () => {
-    const result = listHelper.mostLikes(blogs);
+    const result = listHelper.mostLikes(helpers.blogs);
     assert.strictEqual(result, "Edsger W. Dijkstra");
   });
 });
