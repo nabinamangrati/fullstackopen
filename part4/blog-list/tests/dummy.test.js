@@ -108,10 +108,15 @@ test("missing title or url then status to 400", async () => {
   };
   const response = await api.post("/api/blogs").send(missed).expect(400);
 });
-test.only("deleting single blog test", async () => {
+test("deleting single blog test", async () => {
   const blogsAtStart = await helpers.blogsInDb();
   const blogToDelete = blogsAtStart[0];
   await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+});
+test("updating the likes", async () => {
+  const blogsAtStart = await helpers.blogsInDb();
+  const blogToUpdate = blogsAtStart[0];
+  await api.put(`/api/blogs/${blogToUpdate.id}`).expect(200);
 });
 afterAll(async () => {
   await mongoose.connection.close();

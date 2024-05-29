@@ -39,4 +39,20 @@ app.delete("/:id", async (request, response, next) => {
 
   response.status(204).end();
 });
+
+app.put("/:id", async (request, response) => {
+  const body = request.body;
+
+  console.log(request.params.id, "updated id");
+
+  const blog = {
+    likes: body.likes,
+  };
+  let result = await Blog.findByIdAndUpdate(request.params.id, blog, {
+    new: true,
+  });
+
+  response.status(200).json(result).end();
+  console.log(response, "rrsponse");
+});
 module.exports = app;
