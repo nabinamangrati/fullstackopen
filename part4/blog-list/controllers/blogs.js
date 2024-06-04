@@ -1,5 +1,7 @@
 const app = require("express").Router();
 const Blog = require("../models/blog");
+const User = require("../models/user");
+
 app.get("/", async (request, response) => {
   let blogs = await Blog.find({});
   response.json(blogs);
@@ -19,7 +21,16 @@ app.get("/:id", async (request, response) => {
 });
 
 app.post("/", async (request, response, next) => {
-  const blog = new Blog(request.body);
+  const body = request.body;
+  const user = await User.findById(body.userId);
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+    user: user.id,
+  });
+
   if (!blog.title || !blog.url) {
     return response.status(400).json({ error: "title or url is missing" });
   }
