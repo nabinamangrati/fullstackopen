@@ -31,3 +31,13 @@ content-type: application/json
     "name":"Na ",  
     "password":"nabina123"
 }
+
+###
+POST http://localhost:3003/api/login/
+content-type: application/json
+
+{
+    
+    "username": "nabi1413",
+    "password":"nabina123"
+}
