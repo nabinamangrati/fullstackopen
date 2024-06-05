@@ -5,11 +5,11 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title":"third Blog",
+    "title":"forth Blog",
     "author":"Nabina",
     "url":"https://en.wikipedia.org/wiki/One_Piece",
     "likes":5,
-    "userId":"665ee011d11564883e4d2c2e"
+    "userId":"665edfc9176dd14ffac947db"
 }
 ###
 DELETE http://localhost:3003/api/blogs/6656b8c4eb25bd3b8bd163f0
@@ -27,7 +27,7 @@ POST http://localhost:3003/api/users
 content-type: application/json
 
 { 
-    "username": "nabi20",
-    "name":"Nabina ",  
+    "username": "na",
+    "name":"Na ",  
     "password":"nabina123"
 }

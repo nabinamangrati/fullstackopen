@@ -34,7 +34,7 @@ app.post("/", async (request, response, next) => {
 
   try {
     let result = await user.save();
-    response.status(201).json(result);
+    response.set("Content-Type", "application/json").status(201).json(result);
   } catch (e) {
     next(e);
   }
