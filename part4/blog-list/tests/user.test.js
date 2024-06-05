@@ -7,43 +7,56 @@ const helper = require("./test_helpers");
 
 const api = supertest(app);
 
-// describe("when there is initially one user in db", () => {
-//   beforeEach(async () => {
-//     await User.deleteMany({});
-
-//     const passwordHash = await bcrypt.hash("sekret", 10);
-//     const user = new User({ username: "root", passwordHash });
-
-//     await user.save();
-//   });
-
-describe("user ", () => {
+describe("when there is initially one user in db", () => {
   beforeEach(async () => {
     await User.deleteMany({});
-    const user = { username: "root", name: "Admin", password: "sekret" };
 
-    await api.post("/api/users").send(user);
+    const passwordHash = await bcrypt.hash("sekret", 10);
+    const user = new User({ username: "root", passwordHash });
+
+    await user.save();
   });
 
-  test("post a new user successfully", async () => {
-    const newUser = { username: "@raju", name: "Raju", password: "rajudai123" };
+  test("creation succeeds with a fresh username", async () => {
+    const usersAtStart = await helper.usersInDb();
 
-    const result = await api.post("/api/users").send(newUser);
+    const newUser = {
+      username: "mluukkai",
+      name: "Matti Luukkainen",
+      password: "salainen",
+    };
 
-    expect(result.status).toBe(201);
+    await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
 
-    const users = await User.find({});
-    expect(users.length).toBe(2);
+    const usersAtEnd = await helper.usersInDb();
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length + 1);
+
+    const usernames = usersAtEnd.map((u) => u.username);
+    assert(usernames.includes(newUser.username));
   });
 
-  test("error if password and username are not 3 charcters long and username is not unique", async () => {
-    const newUser = { username: "@raju", name: "Raju", password: "ra" };
+  test("creation fails with proper statuscode and message if username already taken", async () => {
+    const usersAtStart = await helper.usersInDb();
 
-    const result = await api.post("/api/users").send(newUser);
+    const newUser = {
+      username: "root",
+      name: "Superuser",
+      password: "salainen",
+    };
 
-    expect(result.status).toBe(400);
+    const result = await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
 
-    const users = await User.find({});
-    expect(users.length).toBe(1);
+    const usersAtEnd = await helper.usersInDb();
+    assert(result.body.error.includes("expected `username` to be unique"));
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length);
   });
 });
