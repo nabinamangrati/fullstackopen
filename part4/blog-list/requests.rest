@@ -2,14 +2,14 @@ GET http://localhost:3003/api/users
 
 ###
 POST http://localhost:3003/api/blogs
-Content-Type: application/json
-
-{
-    "title":"forth Blog",
-    "author":"Nabina",
-    "url":"https://en.wikipedia.org/wiki/One_Piece",
-    "likes":5,
-    "userId":"665edfc9176dd14ffac947db"
+content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hMTQiLCJpZCI6IjY2NjAzYWZhMDM0YzA2ZGM0ZjEzYTQ2NCIsImlhdCI6MTcxNzU4NzE4NiwiZXhwIjoxNzE3NTkwNzg2fQ.X4nJpNjjSV4QePUU41DBQG3uAo4U_KurB859pjLQfm8
+  
+  {  
+    "title": "using token",
+    "author": "Nabina",
+    "url": "https://en.wikipedia.org/wiki/One_Piece",
+    "likes": 5
 }
 ###
 DELETE http://localhost:3003/api/blogs/6656b8c4eb25bd3b8bd163f0
@@ -27,8 +27,8 @@ POST http://localhost:3003/api/users
 content-type: application/json
 
 { 
-    "username": "na",
-    "name":"Na ",  
+    "username": "na14",
+    "name":"Nabi14 ",  
     "password":"nabina123"
 }
 
@@ -38,6 +38,6 @@ content-type: application/json
 
 {
     
-    "username": "nabi1413",
+    "username": "na14",
     "password":"nabina123"
 }
