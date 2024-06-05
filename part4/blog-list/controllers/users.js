@@ -3,8 +3,15 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
 app.get("/", async (request, response) => {
-  let blogs = await User.find({});
-  response.json(blogs);
+  let result = await User.find({}).populate("blog", {
+    title: 1,
+    author: 1,
+    url: 1,
+    likes: 1,
+  });
+
+  console.log(result, "result");
+  response.json(result);
 });
 
 app.get("/:id", async (request, response) => {

@@ -3,7 +3,7 @@ const Blog = require("../models/blog");
 const User = require("../models/user");
 
 app.get("/", async (request, response) => {
-  let blogs = await Blog.find({});
+  let blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
   response.json(blogs);
 });
 app.get("/:id", async (request, response) => {
@@ -65,5 +65,6 @@ app.put("/:id", async (request, response) => {
 
   response.status(200).json(result).end();
   console.log(response, "rrsponse");
+  user.blogs = user.blogs.concat(result.id);
 });
 module.exports = app;
