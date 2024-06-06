@@ -118,6 +118,21 @@ test("updating the likes", async () => {
   const blogToUpdate = blogsAtStart[0];
   await api.put(`/api/blogs/${blogToUpdate.id}`).expect(200);
 });
+test("fails with status code 401 if token is missing", async () => {
+  const newBlog = {
+    title: "Test Blog",
+    author: "Test Author",
+    url: "https://testblog.com",
+    likes: 10,
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(401)
+    .expect("Content-Type", /application\/json/);
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
