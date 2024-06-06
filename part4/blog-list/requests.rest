@@ -3,16 +3,28 @@ GET http://localhost:3003/api/users
 ###
 POST http://localhost:3003/api/blogs
 content-type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hMTQiLCJpZCI6IjY2NjAzYWZhMDM0YzA2ZGM0ZjEzYTQ2NCIsImlhdCI6MTcxNzU4NzE4NiwiZXhwIjoxNzE3NTkwNzg2fQ.X4nJpNjjSV4QePUU41DBQG3uAo4U_KurB859pjLQfm8
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hYmluYTE0IiwiaWQiOiI2NjYxZTNjMzRhNzIxYjRlZTYyMmI5ZmEiLCJpYXQiOjE3MTc2OTEzODMsImV4cCI6MTcxNzY5NDk4M30.tR2mjyZXTDQuS1d03L9v9QFPHGPn19HrVN4w9a3NbzQ
   
   {  
-    "title": "using token",
-    "author": "Nabina",
+    "title": "hello",
+    "author": "Nabi",
     "url": "https://en.wikipedia.org/wiki/One_Piece",
-    "likes": 5
+    "likes": 10,
+    "userId":"6661e3c34a721b4ee622b9fa"
 }
 ###
-DELETE http://localhost:3003/api/blogs/6656b8c4eb25bd3b8bd163f0
+DELETE http://localhost:3003/api/blogs/6661880f8d545b3be02cec0d
+content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hYmluYTE0MSIsImlkIjoiNjY2MTliNTFhMzhlOTJkYWZkM2Y4ZWQ5IiwiaWF0IjoxNzE3NjcyODE4LCJleHAiOjE3MTc2NzY0MTh9.wOuzmTgxdkutrkWkuiuqB1jEtIphYm82bCNMn5eREoo
+ 
+  {  
+    "title": "hello",
+    "author": "Nabi",
+    "url": "https://en.wikipedia.org/wiki/One_Piece",
+    "likes": 10,
+    "userId":"66619b51a38e92dafd3f8ed9"
+
+}
 ###
 PUT http://localhost:3003/api/blogs/6656b8dbeb25bd3b8bd163f5
 Content-Type: application/json
@@ -27,8 +39,8 @@ POST http://localhost:3003/api/users
 content-type: application/json
 
 { 
-    "username": "na14",
-    "name":"Nabi14 ",  
+    "username": "nabina14",
+    "name":"Nabina14 ",  
     "password":"nabina123"
 }
 
@@ -38,6 +50,6 @@ content-type: application/json
 
 {
     
-    "username": "na14",
+    "username": "nabina14",
     "password":"nabina123"
 }
