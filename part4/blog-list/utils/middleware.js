@@ -16,6 +16,18 @@ const errorHandler = (error, request, response, next) => {
 
   next(error);
 };
+const myHandler = (error, request, response, next) => {
+  console.error("error from nabina");
+  next();
+};
+const another = (request, response, next) => {
+  console.log("hello from nabina");
+  next();
+};
+const myanother = (request, response, next) => {
+  console.log("hello from nabina again");
+  next();
+};
 
 const tokenExtractor = (request, response, next) => {
   console.log(request.token, "req token");
@@ -27,5 +39,22 @@ const tokenExtractor = (request, response, next) => {
 
   next();
 };
+const userExtractor = (request, response, next) => {
+  console.log(request.token, "req token");
+  const authorization = request.get("authorization");
+  console.log(authorization, "authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    request.token = authorization.replace("Bearer ", "");
+  }
 
-module.exports = { errorHandler, tokenExtractor };
+  next();
+};
+
+module.exports = {
+  errorHandler,
+  tokenExtractor,
+  myHandler,
+  another,
+  myanother,
+  userExtractor,
+};

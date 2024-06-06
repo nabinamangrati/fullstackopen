@@ -13,9 +13,15 @@ mongoose.connect(mongoUrl);
 app.use(cors());
 app.use(express.json());
 app.use(middleware.tokenExtractor);
+app.use(middleware.userExtractor);
+
 app.use("/api/blogs", blogsController);
 app.use("/api/users", usersController);
 app.use("/api/login", loginController);
 app.use(middleware.errorHandler);
+app.use(middleware.myHandler);
 
+app.use(middleware.another);
+app.use(middleware.myanother);
+console.log("app");
 module.exports = app;
