@@ -56,8 +56,8 @@ app.post("/", async (request, response, next) => {
     console.log(result, "result");
 
     response.status(201).json(result);
-    console.log(response, "response");
-    user.blogs.push(result.id);
+
+    user.blog.push(result.id);
     await user.save();
   } catch (e) {
     next(e);
@@ -99,7 +99,7 @@ app.delete("/:id", async (request, response) => {
   try {
     await Blog.findByIdAndDelete(id);
     console.log(response, "response");
-    response.status(204).send("blog deleted");
+    response.status(200).json({ messgae: "blog deleted" });
   } catch (error) {
     response.status(400).json({ error: "Invalid blog id" });
   }
