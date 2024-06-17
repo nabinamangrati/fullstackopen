@@ -3,8 +3,8 @@ GET http://localhost:3003/api/users
 ###
 POST http://localhost:3003/api/blogs
 content-type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hYmluYTE0MTUiLCJpZCI6IjY2NjJkZjJhMzI3N2E3ODc1MDFlYjRkZCIsImlhdCI6MTcxNzc1NzYxNywiZXhwIjoxNzE3NzYxMjE3fQ.GoyBeYrsEUCUjJXuCts2b5YAIWNqN5GEOUkH3Ui-6Ds
-  
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hYmluYTE0MTUiLCJpZCI6IjY2NjJkZjJhMzI3N2E3ODc1MDFlYjRkZCIsImlhdCI6MTcxNzc1ODU0NSwiZXhwIjoxNzE3NzYyMTQ1fQ.uBUzGXvA3t1eISPVz9lRoozlwKVyOhmk8F3rFfIclJk
+ 
   {  
     "title": "hello again again hello",
     "author": "Nabina",
