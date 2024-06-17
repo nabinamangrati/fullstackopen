@@ -3,14 +3,14 @@ GET http://localhost:3003/api/users
 ###
 POST http://localhost:3003/api/blogs
 content-type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hYmluYTE0MTU2IiwiaWQiOiI2NjYyZTA0OWZhYWRkNWYzZTYyMWQxNmMiLCJpYXQiOjE3MTg2MTQwMjMsImV4cCI6MTcxODYxNzYyM30.lx00qsCpOJB7MeZ9ywH4eJtrQym73cDrkJiofMSr5SE
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5hYmluYTE0MTUiLCJpZCI6IjY2NjJkZjJhMzI3N2E3ODc1MDFlYjRkZCIsImlhdCI6MTcxODYzNzUxMywiZXhwIjoxNzE4NjQxMTEzfQ.D0Tq_BZ2r2WhJyC2craMhIZBsMseZwOc-rSkg-BhM-I
 
   {  
-    "title": "hello again again hello, nabina",
+    "title": "hello again ",
     "author": "Nabina nabina",
     "url": "https://en.wikipedia.org/wiki/One_Piece",
     "likes": 20,
-    "userId":"6662e049faadd5f3e621d16c"
+    "userId":"6662df2a3277a787501eb4dd"
 }
 ###
 DELETE http://localhost:3003/api/blogs/6662e6ce35f862a88f4763d5
@@ -50,6 +50,6 @@ content-type: application/json
 
 {
     
-    "username": "nabina14156",
+    "username": "nabina1415",
     "password":"nabina123"
 }
