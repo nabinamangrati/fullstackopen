@@ -8,9 +8,7 @@ const setToken = (newToken) => {
 };
 
 const getAll = async () => {
-  const response = await axios.get(baseUrl, {
-    headers: { Authorization: token },
-  });
+  const response = await axios.get(baseUrl);
   return response.data;
 };
 
