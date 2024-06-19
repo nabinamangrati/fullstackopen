@@ -5,8 +5,14 @@ const jwt = require("jsonwebtoken");
 // const { tokenExtractor } = require("../utils/middleware");
 
 app.get("/", async (request, response, next) => {
-  let blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
+  console.log(request.user, "request from the backend");
+  let blogs = await Blog.find({}).populate("user", {
+    username: 1,
+    name: 1,
+  });
   response.json(blogs);
+  console.log(blogs, "request from frontend");
+
   next();
 });
 app.get("/:id", async (request, response, next) => {
