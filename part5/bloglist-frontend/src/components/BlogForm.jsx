@@ -1,4 +1,12 @@
-const blogForm = () => {
+const BlogForm = ({
+  handleAddBlog,
+  newBlogTitle,
+  handlenewBlogTitle,
+  newBlogAuthor,
+  handlenewBlogAuthor,
+  newBlogUrl,
+  handlenewBlogUrl,
+}) => {
   return (
     <div>
       <h2>create new</h2>
@@ -8,7 +16,7 @@ const blogForm = () => {
           <input
             type="text"
             value={newBlogTitle}
-            onChange={({ target }) => setnewBlogTitle(target.value)}
+            onChange={handlenewBlogTitle}
           />
         </div>
         <div>
@@ -16,16 +24,12 @@ const blogForm = () => {
           <input
             type="text"
             value={newBlogAuthor}
-            onChange={({ target }) => setnewBlogAuthor(target.value)}
+            onChange={handlenewBlogAuthor}
           />
         </div>
         <div>
           Url:
-          <input
-            type="text"
-            value={newBlogUrl}
-            onChange={({ target }) => setnewBlogUrl(target.value)}
-          />
+          <input type="text" value={newBlogUrl} onChange={handlenewBlogUrl} />
         </div>
 
         <button type="submit">create</button>
@@ -34,4 +38,4 @@ const blogForm = () => {
     </div>
   );
 };
-export default blogForm;
+export default BlogForm;
