@@ -1,9 +1,8 @@
-import React from "react";
 import { useState } from "react";
+import blogService from "../services/blogs";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, setBlogs }) => {
   const [showDetails, setShowDetails] = useState("");
-
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -14,6 +13,23 @@ const Blog = ({ blog }) => {
 
   const togglAble = () => {
     setShowDetails(!showDetails);
+  };
+
+  const handleLikes = async (blogs) => {
+    const blogToUpdate = { ...blogs, likes: blogs.likes + 1 };
+    try {
+      const response = await blogService.update(blogToUpdate.id, blogToUpdate);
+      setBlogs((prev) => {
+        return prev.map((oldblogs) => {
+          if (oldblogs.id === response.id) {
+            return response;
+          }
+          return oldblogs;
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -27,11 +43,10 @@ const Blog = ({ blog }) => {
           <div>{blog.url}</div>
           <div>
             Likes: {blog.likes}{" "}
-            <button onClick={() => console.log("Like button clicked")}>
-              Like
-            </button>
+            <button onClick={() => handleLikes(blog)}>Like</button>
           </div>
           <div>{blog.author}</div>
+          <div>{blog.user.name}</div>
         </div>
       )}
     </div>
