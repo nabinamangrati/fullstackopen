@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
@@ -19,6 +19,7 @@ const App = () => {
   const [notification, setNotification] = useState("");
   const [error, setErrorMessage] = useState("");
 
+  const BlogFormRef = useRef();
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("user");
     if (loggedUserJSON) {
@@ -69,10 +70,10 @@ const App = () => {
       author: newBlogAuthor,
       url: newBlogUrl,
     };
+    BlogFormRef.current.toggleVisibility();
     try {
       //send new blogs to backend
       const createdBlog = await blogService.create(newBlog);
-
       //add new blogs to blogs state
       setBlogs([...blogs, createdBlog]);
       setnewBlogTitle("");
@@ -118,7 +119,7 @@ const App = () => {
   };
   const blogForm = () => {
     return (
-      <Togglable buttonLabel="new blog">
+      <Togglable buttonLabel="new blog" ref={BlogFormRef}>
         <BlogForm
           newBlogTitle={newBlogTitle}
           newBlogAuthor={newBlogAuthor}
