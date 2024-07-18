@@ -6,13 +6,14 @@ const App = () => {
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-
+  // console.log(searchTerm, "searchterm value");
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
           `https://restcountries.com/v3.1/name/${searchTerm}`
         );
+        console.log(response.data, "response");
         setCountries(response.data);
         setSelectedCountry(null);
         setErrorMessage("");
@@ -28,10 +29,14 @@ const App = () => {
   }, [searchTerm]);
 
   const handleSearchChange = (e) => {
+    e.preventDefault();
+    // console.log(e.target.value, "value from searchtchange");
     setSearchTerm(e.target.value);
   };
 
   const handleCountryClick = async (countryName) => {
+    console.log(countryName, "countryname");
+
     try {
       const response = await axios.get(
         `https://restcountries.com/v3.1/name/${countryName}`
@@ -71,7 +76,7 @@ const App = () => {
       {renderErrorMessage()}
       {renderCountriesWarning()}
 
-      {countries.length <= 10 && countries.length > 1 && (
+      {countries.length <= 10 && countries.length >= 1 && (
         <ul>
           {countries.map((country) => (
             <li
