@@ -7,10 +7,10 @@ const jwt = require("jsonwebtoken");
 app.get("/", async (request, response, next) => {
   console.log(request.user, "request from the backend");
   let blogs = await Blog.find({})
-    .populate("user", {
-      username: 1,
-      name: 1,
-    })
+    // .populate("user", {
+    //   username: 1,
+    //   name: 1,
+    // })
     .sort({ likes: -1 });
   response.json(blogs);
   console.log(blogs, "request from frontend");
