@@ -54,13 +54,13 @@ const Blog = ({ blog, setBlogs }) => {
   };
 
   return (
-    <div style={blogStyle}>
-      <div>
+    <div style={blogStyle} className="blog-div">
+      <div className="blog-details">
         {blog.title}
         <button onClick={togglAble}>{showDetails ? "Hide" : "View"}</button>
       </div>
       {showDetails && (
-        <div>
+        <div className="blog-details">
           <div>{blog.url}</div>
           <div>
             Likes: {blog.likes}{" "}
