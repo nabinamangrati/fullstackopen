@@ -1,8 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
-
 const Blog = ({ blog, setBlogs }) => {
-  const [showDetails, setShowDetails] = useState("");
+  const [showDetails, setShowDetails] = useState([]);
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -20,7 +19,6 @@ const Blog = ({ blog, setBlogs }) => {
   const togglAble = () => {
     setShowDetails(!showDetails);
   };
-
   const handleLikes = async (blogs) => {
     const blogToUpdate = { ...blogs, likes: blogs.likes + 1 };
     try {
@@ -46,6 +44,7 @@ const Blog = ({ blog, setBlogs }) => {
     if (confirmation) {
       try {
         await blogService.deleteBlog(blog.id);
+        console.log(blog.id, "blogid from blog.jsx");
         setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
       } catch (error) {
         console.error("Error deleting blog:", error);
@@ -54,20 +53,20 @@ const Blog = ({ blog, setBlogs }) => {
   };
 
   return (
-    <div style={blogStyle} className="blog-div">
-      <div className="blog-details">
+    <div style={blogStyle}>
+      <div>
         {blog.title}
         <button onClick={togglAble}>{showDetails ? "Hide" : "View"}</button>
       </div>
       {showDetails && (
-        <div className="blog-details">
+        <div>
           <div>{blog.url}</div>
           <div>
             Likes: {blog.likes}{" "}
             <button onClick={() => handleLikes(blog)}>Like</button>
           </div>
           <div>{blog.author}</div>
-          <div>{blog.user.name}</div>
+          {/* <div>{blog.user.name}</div> */}
 
           <div>
             <button
@@ -82,5 +81,4 @@ const Blog = ({ blog, setBlogs }) => {
     </div>
   );
 };
-
 export default Blog;
