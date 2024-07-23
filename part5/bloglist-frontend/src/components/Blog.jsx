@@ -65,7 +65,9 @@ const Blog = ({ blog, setBlogs }) => {
           <div>{blog.url}</div>
           <div>
             Likes: {blog.likes}{" "}
-            <button onClick={() => handleLikes(blog)}>Like</button>
+            <button onClick={() => handleLikes(blog)} id="like-button">
+              Like
+            </button>
           </div>
           <div>{blog.author}</div>
           {/* <div>{blog.user.name}</div> */}

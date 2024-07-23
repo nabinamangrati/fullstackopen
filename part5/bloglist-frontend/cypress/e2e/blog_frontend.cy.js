@@ -44,6 +44,12 @@ describe("blog-frontend", function () {
         cy.contains("title cypress");
         cy.contains("author cypress");
       });
+      it("A blog can be liked", function () {
+        cy.contains("Blogs");
+        cy.get("#view").click();
+        cy.contains("Likes");
+        cy.get("#like-button").click();
+      });
     });
   });
 });
