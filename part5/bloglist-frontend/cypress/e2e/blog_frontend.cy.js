@@ -26,5 +26,24 @@ describe("blog-frontend", function () {
       cy.get("#login-button").click();
       cy.contains("Wrong username or password");
     });
+    describe("When logged in", function () {
+      beforeEach(function () {
+        cy.contains("show login").click();
+        cy.get("#username").type("nabina1415");
+        cy.get("#password").type("nabina123");
+        cy.get("#login-button").click();
+      });
+
+      it("A blog can be created", function () {
+        cy.contains("new blog").click();
+        cy.get("#title").type("title cypress");
+        cy.get("#author").type("author cypress");
+        cy.get("#url").type("url cypress");
+        cy.get("#submit").click();
+
+        cy.contains("title cypress");
+        cy.contains("author cypress");
+      });
+    });
   });
 });

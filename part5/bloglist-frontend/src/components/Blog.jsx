@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 const Blog = ({ blog, setBlogs }) => {
-  const [showDetails, setShowDetails] = useState([]);
+  const [showDetails, setShowDetails] = useState("");
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -56,7 +56,9 @@ const Blog = ({ blog, setBlogs }) => {
     <div style={blogStyle}>
       <div>
         {blog.title}
-        <button onClick={togglAble}>{showDetails ? "Hide" : "View"}</button>
+        <button onClick={togglAble} id="view">
+          {showDetails ? "Hide" : "View"}
+        </button>
       </div>
       {showDetails && (
         <div>
