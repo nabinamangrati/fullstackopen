@@ -1,5 +1,12 @@
 describe("blog-frontend", function () {
   beforeEach(function () {
+    cy.request("POST", "http://localhost:3003/api/testing/reset");
+    const user = {
+      name: "Matti Luukkainen",
+      username: "mluukkai",
+      password: "salainen",
+    };
+    cy.request("POST", "http://localhost:3003/api/users/", user);
     cy.visit("http://localhost:5173");
   });
 
@@ -45,10 +52,18 @@ describe("blog-frontend", function () {
         cy.contains("author cypress");
       });
       it("A blog can be liked", function () {
-        cy.contains("Blogs");
+        const newBlog = {
+          title: "New Blog",
+          author: "Cypress tester",
+          url: "www.example.com",
+        };
+        cy.supportCreateBlog(newBlog);
+
         cy.get("#view").click();
-        cy.contains("Likes");
+        cy.contains("0");
+
         cy.get("#like-button").click();
+        cy.contains("1");
       });
     });
   });
