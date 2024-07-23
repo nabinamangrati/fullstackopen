@@ -68,6 +68,17 @@ describe("blog-frontend", function () {
         cy.get("#like-button").click();
         cy.contains("1");
       });
+      it("A blog can be deleted", function () {
+        cy.contains("new blog").click();
+        const newBlog = {
+          title: "New Blog",
+          author: "Cypress tester",
+          url: "www.example.com",
+        };
+        cy.supportCreateBlog(newBlog);
+        cy.get("#view").click();
+        cy.get("#remove").click();
+      });
     });
   });
 });

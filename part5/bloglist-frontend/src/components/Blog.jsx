@@ -76,6 +76,7 @@ const Blog = ({ blog, setBlogs }) => {
             <button
               onClick={() => handleDelete(blog)}
               style={blogStyle.removebutton}
+              id="remove"
             >
               Remove
             </button>
