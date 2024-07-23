@@ -20,10 +20,10 @@ describe("blog-frontend", function () {
   describe("Login", function () {
     it("succeeds with correct credentials", function () {
       cy.contains("show login").click();
-      cy.get("#username").type("nabina1415");
-      cy.get("#password").type("nabina123");
+      cy.get("#username").type("mluukkai");
+      cy.get("#password").type("salainen");
       cy.get("#login-button").click();
-      cy.contains("nabina1415 logged in");
+      cy.contains("mluukkai logged in");
     });
 
     it("fails with wrong credentials", function () {
@@ -36,8 +36,8 @@ describe("blog-frontend", function () {
     describe("When logged in", function () {
       beforeEach(function () {
         cy.contains("show login").click();
-        cy.get("#username").type("nabina1415");
-        cy.get("#password").type("nabina123");
+        cy.get("#username").type("mluukkai");
+        cy.get("#password").type("salainen");
         cy.get("#login-button").click();
       });
 
@@ -52,13 +52,16 @@ describe("blog-frontend", function () {
         cy.contains("author cypress");
       });
       it("A blog can be liked", function () {
+        cy.contains("new blog").click();
         const newBlog = {
           title: "New Blog",
           author: "Cypress tester",
           url: "www.example.com",
         };
+        cy.wait(1000);
         cy.supportCreateBlog(newBlog);
 
+        cy.wait(500);
         cy.get("#view").click();
         cy.contains("0");
 
