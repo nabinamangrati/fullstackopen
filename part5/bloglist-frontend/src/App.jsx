@@ -141,7 +141,9 @@ const App = () => {
       {user !== null && (
         <div>
           <p>{user.username} logged in</p>
-          <button onClick={handleLogout}>Logout</button>
+          <button onClick={handleLogout} id="logout-button">
+            Logout
+          </button>
         </div>
       )}
       {user === null && loginForm()}
