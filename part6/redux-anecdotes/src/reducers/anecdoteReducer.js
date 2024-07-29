@@ -45,12 +45,12 @@ export const increaseVote = (id) => {
     payload: id,
   };
 };
-const createAnecdotes = (newAnecdotes) => {
+const createAnecdote = (newAnecdotes) => {
   return {
     type: "NEW_ANECDOTES",
     payload: newAnecdotes,
   };
 };
-export { createAnecdotes };
+export { createAnecdote };
 
 export default reducer;

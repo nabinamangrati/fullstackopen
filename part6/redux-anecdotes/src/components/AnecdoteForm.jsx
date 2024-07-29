@@ -1,4 +1,4 @@
-import { createAnecdotes } from "../reducers/anecdoteReducer";
+import { createAnecdote } from "../reducers/anecdoteReducer";
 import { useDispatch } from "react-redux";
 import { getId } from "../reducers/anecdoteReducer";
 const AnecdoteForm = () => {
@@ -12,7 +12,7 @@ const AnecdoteForm = () => {
       id: getId(),
       votes: 0,
     };
-    dispatch(createAnecdotes(newAnecdotes));
+    dispatch(createAnecdote(newAnecdotes));
     event.target.myInput.value = "";
   };
   return (
