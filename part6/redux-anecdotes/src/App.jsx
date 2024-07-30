@@ -17,10 +17,10 @@ const App = () => {
   return (
     <div>
       <Filter />
+      <Notification />
       <h2>Anecdotes</h2>
       <AnecdoteList />
       <AnecdoteForm />
-      <Notification />
     </div>
   );
 };

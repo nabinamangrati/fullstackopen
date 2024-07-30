@@ -3,11 +3,15 @@ const notificationReducer = createSlice({
   name: "notification",
   initialState: "all notifications",
   reducers: {
-    notificationChange(state, action) {
+    setNotification(state, action) {
       return action.payload;
+    },
+    resetNotification(state, action) {
+      setNotification(action);
+      return "New notifications";
     },
   },
 });
-const { notificationChange } = notificationReducer.actions;
-export { notificationChange };
-export default notificationReducer.reducer; //export reducer to store.js
+const { setNotification, resetNotification } = notificationReducer.actions;
+export { setNotification, resetNotification };
+export default notificationReducer.reducer;
