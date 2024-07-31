@@ -1,6 +1,7 @@
 import { createAnecdote } from "../reducers/anecdoteReducer";
 import { useDispatch } from "react-redux";
 import { getId } from "../reducers/anecdoteReducer";
+import anecdoteService from "../services/anecdotes";
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
 
@@ -12,7 +13,9 @@ const AnecdoteForm = () => {
       id: getId(),
       votes: 0,
     };
-    dispatch(createAnecdote(newAnecdotes));
+    anecdoteService.createNew(newAnecdotes).then((myAnecdote) => {
+      dispatch(createAnecdote(myAnecdote));
+    });
     event.target.myInput.value = "";
   };
   return (
