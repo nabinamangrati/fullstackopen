@@ -6,16 +6,15 @@ import anecdoteService from "./services/anecdotes";
 import { useDispatch } from "react-redux";
 import { createAnecdote } from "./reducers/anecdoteReducer";
 import { useEffect } from "react";
+import { initializeAnecdotes } from "./reducers/anecdoteReducer";
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    anecdoteService.getAll().then((response) => {
-      console.log(response, "response");
-      dispatch(createAnecdote(response));
-    });
-  });
+    dispatch(initializeAnecdotes());
+  }, [dispatch]);
+
   return (
     <div>
       <Filter />
