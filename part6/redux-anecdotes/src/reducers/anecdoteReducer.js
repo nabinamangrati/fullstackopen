@@ -39,7 +39,7 @@ export const voteAnecdote = (anecdoteToUpdate) => {
 };
 
 const { createAnecdote, increaseVote, setAnecdotes } = anecdoteReducer.actions;
-export { createAnecdote, increaseVote };
+export { createAnecdote, increaseVote, setAnecdotes };
 export const initializeAnecdotes = () => {
   return async (dispatch) => {
     const anecdotes = await anecdoteService.getAll();
