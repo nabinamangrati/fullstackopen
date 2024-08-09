@@ -1,6 +1,8 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
-const Blog = ({ blog, setBlogs, loggedinUser }) => {
+const Blog = ({ blog, setBlogs, loggedInUser }) => {
+  console.log(blog, "from blog");
+  console.log(loggedInUser, "user");
   const [showDetails, setShowDetails] = useState("");
   const blogStyle = {
     paddingTop: 10,
@@ -51,9 +53,11 @@ const Blog = ({ blog, setBlogs, loggedinUser }) => {
       }
     }
   };
-
+  loggedInUser = JSON.parse(localStorage.getItem("user"));
+  console.log("Logged in user:", loggedInUser.user);
+  console.log("Blog user:", blog.user);
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog-div">
       <div>
         {blog.title}
         <button onClick={togglAble} id="view">
@@ -72,7 +76,7 @@ const Blog = ({ blog, setBlogs, loggedinUser }) => {
           <div>{blog.author}</div>
           {blog.user.name}
           <div>
-            {loggedinUser.username === blog.user.username ? (
+            {loggedInUser.username === blog.user.username ? (
               <button
                 onClick={() => handleDelete(blog)}
                 style={blogStyle.removebutton}
