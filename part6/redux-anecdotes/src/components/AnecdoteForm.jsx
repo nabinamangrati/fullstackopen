@@ -1,26 +1,43 @@
-import { useDispatch } from "react-redux";
-import { createAnecdoteAsync } from "../reducers/anecdoteReducer";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createAnecdote } from "../request";
 
 const AnecdoteForm = () => {
-  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
-  const addAnecdotes = (event) => {
+  const newAnecdoteMutation = useMutation({
+    mutationFn: createAnecdote,
+    onSuccess: (newAnecdote) => {
+      const returnAnecdotes = queryClient.getQueryData(["anecdotes"]);
+      queryClient.setQueryData(
+        ["anecdotes"],
+        returnAnecdotes.concat(newAnecdote)
+      );
+    },
+  });
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.dir(event.target.myInput.value);
-    const content = event.target.myInput.value;
-    event.target.myInput.value = "";
-    dispatch(createAnecdoteAsync(content));
+    const content = event.target.newAnecdote.value;
+
+    if (content.length < 5) {
+      alert("Anecdote must be at least 5 characters long.");
+      return;
+    }
+    const anecdoteToAdd = { content, votes: 0 };
+    newAnecdoteMutation.mutate(anecdoteToAdd);
+    event.target.newAnecdote.value = "";
   };
   return (
-    <div>
+    <>
       <h2>create new</h2>
-      <form onSubmit={addAnecdotes}>
+      <form onSubmit={handleSubmit}>
         <div>
-          <input name="myInput" />
+          <input name="newAnecdote" />
         </div>
-        <button type="submit">create</button>
+        <button>create</button>
       </form>
-    </div>
+    </>
   );
 };
+
 export default AnecdoteForm;
