@@ -3,12 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { upVoteAnecdote } from "../services/anecdotes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { notificationTimeout } from "../reducers/notificationReducer";
+// import { notificationTimeout } from "../reducers/notificationReducer";
+import { useContext } from "react";
+import NotificationContext from "../NotificationContext";
 
 const AnecdoteList = () => {
   const filter = useSelector((state) => state.filter.toLowerCase());
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
+  const [notification, contextDispatch] = useContext(NotificationContext);
 
   const voteMutation = useMutation({
     mutationFn: upVoteAnecdote,
@@ -26,7 +29,15 @@ const AnecdoteList = () => {
     const { content } = anecdote;
     const anecdoteToUpdate = { ...anecdote, votes: anecdote.votes + 1 };
     voteMutation.mutate(anecdoteToUpdate);
-    dispatch(notificationTimeout(`you voted '${content}'`, 1));
+    contextDispatch({
+      type: "SET_NOTIFICATION",
+      payload: `anecdote '${content}' voted`,
+    });
+    setTimeout(() => {
+      contextDispatch({
+        type: "RESET_NOTIFICATION",
+      });
+    }, 2000);
   };
 
   // const vote = (anecdote) => {

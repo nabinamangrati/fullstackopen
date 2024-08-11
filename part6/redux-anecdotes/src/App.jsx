@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import { getAnecdotes } from "./request";
 import { setAnecdotes } from "./reducers/anecdoteReducer";
+import { NotificationContextProvider } from "./NotificationContext";
+
 const App = () => {
   const dispatch = useDispatch();
 
@@ -28,11 +30,13 @@ const App = () => {
   dispatch(setAnecdotes(anecdotes));
   return (
     <div>
-      <Filter />
-      <Notification />
-      <h2>Anecdotes</h2>
-      <AnecdoteList />
-      <AnecdoteForm />
+      <NotificationContextProvider>
+        <Filter />
+        <Notification />
+        <h2>Anecdotes</h2>
+        <AnecdoteList />
+        <AnecdoteForm />
+      </NotificationContextProvider>
     </div>
   );
 };
