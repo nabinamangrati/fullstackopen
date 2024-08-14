@@ -26,22 +26,27 @@ const CreateNew = (props) => {
         <div>
           content
           <input
-            type={content.type}
-            value={content.value}
-            onChange={content.onChange}
+            // type={content.type}
+            // value={content.value}
+            // onChange={content.onChange}
+            {...content}
           />
         </div>
         <div>
           author
           <input
-            type={author.type}
-            value={author.value}
-            onChange={author.onChange}
+            // type={author.type}
+            // value={author.value}
+            // onChange={author.onChange}
+            {...author}
           />
         </div>
         <div>
           url for more info
-          <input type={info.type} value={info.value} onChange={info.onChange} />
+          <input
+            // type={info.type} value={info.value} onChange={info.onChange}
+            {...info}
+          />
         </div>
         <button>create</button>
         <button type="button" onClick={handleReset}>
