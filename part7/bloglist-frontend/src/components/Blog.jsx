@@ -1,8 +1,13 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
+import { useDispatch } from "react-redux";
+
+import { setNotification } from "../reducers/notificationReducer";
 const Blog = ({ blog, setBlogs, loggedInUser }) => {
   console.log(blog, "from blog");
   console.log(loggedInUser, "user");
+
+  const dispatch = useDispatch();
   const [showDetails, setShowDetails] = useState("");
   const blogStyle = {
     paddingTop: 10,
@@ -40,6 +45,8 @@ const Blog = ({ blog, setBlogs, loggedInUser }) => {
   };
 
   const handleDelete = async (blog) => {
+    dispatch(setNotification("Deleting blog...", 5));
+
     const confirmation = window.confirm(
       `Remove blog ${blog.title} by ${blog.author}`
     );
@@ -48,6 +55,10 @@ const Blog = ({ blog, setBlogs, loggedInUser }) => {
         await blogService.deleteBlog(blog.id);
         console.log(blog.id, "blogid from blog.jsx");
         setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
+
+        setTimeout(() => {
+          dispatch(setNotification("Blog deleted successfully!", 10));
+        }, 100);
       } catch (error) {
         console.error("Error deleting blog:", error);
       }
@@ -76,15 +87,15 @@ const Blog = ({ blog, setBlogs, loggedInUser }) => {
           <div>{blog.author}</div>
           {blog.user.name}
           <div>
-            {loggedInUser.username === blog.user.username ? (
-              <button
-                onClick={() => handleDelete(blog)}
-                style={blogStyle.removebutton}
-                id="remove"
-              >
-                Remove
-              </button>
-            ) : null}
+            {/* {loggedInUser.username === blog.user.username ? ( */}
+            <button
+              onClick={() => handleDelete(blog)}
+              style={blogStyle.removebutton}
+              id="remove"
+            >
+              Remove
+            </button>
+            {/* ) : null} */}
           </div>
         </div>
       )}

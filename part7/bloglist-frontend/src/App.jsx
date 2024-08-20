@@ -6,6 +6,7 @@ import "./index.css";
 import LoginForm from "./components/LoginForm";
 import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -135,6 +136,7 @@ const App = () => {
 
   return (
     <>
+      <Notification />
       <h2>Blogs</h2>
       {error && <div className="errorMessage">{error}</div>}
       {notification && <div className="notification">{notification}</div>}
