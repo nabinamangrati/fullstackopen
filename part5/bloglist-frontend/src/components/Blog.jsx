@@ -2,7 +2,7 @@ import { useState } from "react";
 import blogService from "../services/blogs";
 const Blog = ({ blog, setBlogs, loggedInUser }) => {
   console.log(blog, "from blog");
-  console.log(loggedInUser, "user");
+
   const [showDetails, setShowDetails] = useState("");
   const blogStyle = {
     paddingTop: 10,
@@ -53,13 +53,13 @@ const Blog = ({ blog, setBlogs, loggedInUser }) => {
       }
     }
   };
-  loggedInUser = JSON.parse(localStorage.getItem("user"));
-  console.log("Logged in user:", loggedInUser.user);
-  console.log("Blog user:", blog.user);
+
   return (
     <div style={blogStyle} className="blog-div">
       <div>
         {blog.title}
+        <div>{blog.author}</div>
+
         <button onClick={togglAble} id="view">
           {showDetails ? "Hide" : "View"}
         </button>
@@ -73,18 +73,18 @@ const Blog = ({ blog, setBlogs, loggedInUser }) => {
               Like
             </button>
           </div>
-          <div>{blog.author}</div>
-          {blog.user.name}
+          {/* <div>{blog.author}</div> */}
+          {blog.user}
           <div>
-            {loggedInUser.username === blog.user.username ? (
-              <button
-                onClick={() => handleDelete(blog)}
-                style={blogStyle.removebutton}
-                id="remove"
-              >
-                Remove
-              </button>
-            ) : null}
+            {/* {loggedInUser.username === blog.user.username ? ( */}
+            <button
+              onClick={() => handleDelete(blog)}
+              style={blogStyle.removebutton}
+              id="remove"
+            >
+              Remove
+            </button>
+            {/* ) : null} */}
           </div>
         </div>
       )}

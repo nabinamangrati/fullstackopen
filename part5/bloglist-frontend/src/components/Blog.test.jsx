@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Blog from "./Blog";
 
-test("renders blog title and blog author but not likes and url", () => {
+test("renders blog title and blog author but not likes and url", async () => {
   const blog = {
     title: "A test-case",
     author: "Jest Library",
@@ -13,14 +13,17 @@ test("renders blog title and blog author but not likes and url", () => {
   };
   const { container } = render(<Blog blog={blog} />);
   const div = container.querySelector(".blog-div");
-  const element = screen.queryByText("likes");
+
+  // const element = screen.queryByText("likes");
   expect(div).toHaveTextContent("A test-case");
   expect(div).toHaveTextContent("Jest Library");
-  expect(element).toBeNull();
-  expect(screen.queryByText("url")).toBeNull();
+  // expect(element).toBeNull();
+  // expect(screen.queryByText("url")).toBeNull();
+  expect(div).not.toHaveTextContent("https://localhost:3000/");
+  expect(div).not.toHaveTextContent(99);
 });
 
-test.only("Likes and Url will be shown when toggled", async () => {
+test("Likes and Url will be shown when toggled", async () => {
   const blog = {
     title: "A test-case",
     author: "Jest Library",
@@ -40,7 +43,7 @@ test.only("Likes and Url will be shown when toggled", async () => {
   expect(screen.queryByText("Likes")).toBeDefined();
   expect(screen.queryByText("url")).toBeDefined();
 });
-test.only("Like button is clickable", async () => {
+test("Like button is clickable", async () => {
   const blog = {
     title: "A test-case",
     author: "Jest Library",
