@@ -1,8 +1,6 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
-const Blog = ({ blog, setBlogs, loggedInUser }) => {
-  console.log(blog, "from blog");
-
+const Blog = ({ blog, setBlogs, loggedInUser, handleLikes }) => {
   const [showDetails, setShowDetails] = useState("");
   const blogStyle = {
     paddingTop: 10,
@@ -21,23 +19,6 @@ const Blog = ({ blog, setBlogs, loggedInUser }) => {
   const togglAble = () => {
     setShowDetails(!showDetails);
   };
-  const handleLikes = async (blogs) => {
-    const blogToUpdate = { ...blogs, likes: blogs.likes + 1 };
-    try {
-      const response = await blogService.update(blogToUpdate.id, blogToUpdate);
-      console.log(response, "response from Blog.jsx");
-      setBlogs((prev) => {
-        return prev.map((oldblogs) => {
-          if (oldblogs.id === response.id) {
-            return response;
-          }
-          return oldblogs;
-        });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDelete = async (blog) => {
     const confirmation = window.confirm(
@@ -46,7 +27,6 @@ const Blog = ({ blog, setBlogs, loggedInUser }) => {
     if (confirmation) {
       try {
         await blogService.deleteBlog(blog.id);
-        console.log(blog.id, "blogid from blog.jsx");
         setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
       } catch (error) {
         console.error("Error deleting blog:", error);

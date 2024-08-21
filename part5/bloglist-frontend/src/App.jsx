@@ -47,6 +47,7 @@ const App = () => {
         username,
         password,
       });
+      console.log(user, "user form app");
       setUser(user);
       window.localStorage.setItem("user", JSON.stringify(user));
       blogService.setToken(user.token);
@@ -62,7 +63,23 @@ const App = () => {
       setPassword("");
     }
   };
-
+  const handleLikes = async (blogs) => {
+    const blogToUpdate = { ...blogs, likes: blogs.likes + 1 };
+    try {
+      const response = await blogService.update(blogToUpdate.id, blogToUpdate);
+      console.log(response, "response from Blog.jsx");
+      setBlogs((prev) => {
+        return prev.map((oldblogs) => {
+          if (oldblogs.id === response.id) {
+            return response;
+          }
+          return oldblogs;
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleAddBlog = async (event) => {
     event.preventDefault();
     const newBlog = {
@@ -158,6 +175,7 @@ const App = () => {
               blog={blog}
               setBlogs={setBlogs}
               loggedInUser={user}
+              handleLikes={handleLikes}
             />
           ))}
       </ul>

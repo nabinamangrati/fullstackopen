@@ -35,7 +35,7 @@ test("Likes and Url will be shown when toggled", async () => {
   const user = userEvent.setup();
   const button = screen.getByText("View");
   await user.click(button);
-  screen.debug();
+  // screen.debug();
 
   const div = container.querySelector(".blog-div");
   expect(div).toHaveTextContent("https://localhost:3000/");
@@ -52,9 +52,7 @@ test("Like button is clickable", async () => {
   };
   const mockHandler = vi.fn();
 
-  const { container } = render(
-    <Blog blog={blog} updateLikes={mockHandler} />
-  ).container;
+  render(<Blog blog={blog} handleLikes={mockHandler} />);
 
   const user = userEvent.setup();
   const button = screen.getByText("View");
