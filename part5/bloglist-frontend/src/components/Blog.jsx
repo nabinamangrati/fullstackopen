@@ -55,16 +55,19 @@ const Blog = ({ blog, setBlogs, loggedInUser, handleLikes }) => {
           </div>
 
           {blog.user.name}
+          {console.log(loggedInUser, "loggedInUser")}
+          {console.log(blog, "blog")}
           <div>
-            {/* {loggedInUser.username === blog.user.username ? ( */}
-            <button
-              onClick={() => handleDelete(blog)}
-              style={blogStyle.removebutton}
-              id="remove"
-            >
-              Remove
-            </button>
-            {/* ) : null} */}
+            {loggedInUser.id === blog.user ||
+            loggedInUser.id === blog.user.id ? (
+              <button
+                onClick={() => handleDelete(blog)}
+                style={blogStyle.removebutton}
+                id="remove"
+              >
+                Remove
+              </button>
+            ) : null}
           </div>
         </div>
       )}
