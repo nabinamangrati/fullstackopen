@@ -1,6 +1,9 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
+import { useDispatch } from "react-redux";
+import { setNotification } from "../reducers/notificationReducer";
 const Blog = ({ blog, setBlogs, loggedInUser, handleLikes }) => {
+  const dispatch = useDispatch();
   const [showDetails, setShowDetails] = useState("");
   const blogStyle = {
     paddingTop: 10,
@@ -28,6 +31,7 @@ const Blog = ({ blog, setBlogs, loggedInUser, handleLikes }) => {
       try {
         await blogService.deleteBlog(blog.id);
         setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
+        dispatch(setNotification("Blog deleted successfully!", 3));
       } catch (error) {
         console.error("Error deleting blog:", error);
       }
