@@ -53,8 +53,8 @@ const Blog = ({ blog, setBlogs, loggedInUser, handleLikes }) => {
               Like
             </button>
           </div>
-          {/* <div>{blog.author}</div> */}
-          {blog.user}
+
+          {blog.user.name}
           <div>
             {/* {loggedInUser.username === blog.user.username ? ( */}
             <button
