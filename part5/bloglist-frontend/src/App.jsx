@@ -12,10 +12,6 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  //new blog state
-  const [newBlogTitle, setnewBlogTitle] = useState("");
-  const [newBlogAuthor, setnewBlogAuthor] = useState("");
-  const [newBlogUrl, setnewBlogUrl] = useState("");
   const [notification, setNotification] = useState("");
   const [error, setErrorMessage] = useState("");
 
@@ -80,22 +76,24 @@ const App = () => {
       console.log(error);
     }
   };
-  const handleAddBlog = async (event) => {
-    event.preventDefault();
-    const newBlog = {
-      title: newBlogTitle,
-      author: newBlogAuthor,
-      url: newBlogUrl,
-    };
+  const handleAddBlog = async (newBlog) => {
+    // const handleAddBlog = async (event) => {
+    // event.preventDefault();
+    // const newBlog = {
+    //   title: newBlogTitle,
+    //   author: newBlogAuthor,
+    //   url: newBlogUrl,
+    // };
+    // console.log("newblog from the handleblog", newBlog);
     BlogFormRef.current.toggleVisibility();
     try {
       //send new blogs to backend
       const createdBlog = await blogService.create(newBlog);
       //add new blogs to blogs state
       setBlogs([...blogs, createdBlog]);
-      setnewBlogTitle("");
-      setnewBlogAuthor("");
-      setnewBlogUrl("");
+      // setnewBlogTitle("");
+      // setnewBlogAuthor("");
+      // setnewBlogUrl("");
       setNotificationMessage(
         `a new blog "${createdBlog.title}"by ${createdBlog.author} added`
       );
@@ -138,12 +136,12 @@ const App = () => {
     return (
       <Togglable buttonLabel="new blog" ref={BlogFormRef}>
         <BlogForm
-          newBlogTitle={newBlogTitle}
-          newBlogAuthor={newBlogAuthor}
-          newBlogUrl={newBlogUrl}
-          handlenewBlogTitle={({ target }) => setnewBlogTitle(target.value)}
-          handlenewBlogAuthor={({ target }) => setnewBlogAuthor(target.value)}
-          handlenewBlogUrl={({ target }) => setnewBlogUrl(target.value)}
+          // newBlogTitle={newBlogTitle}
+          // newBlogAuthor={newBlogAuthor}
+          // newBlogUrl={newBlogUrl}
+          // handlenewBlogTitle={({ target }) => setnewBlogTitle(target.value)}
+          // handlenewBlogAuthor={({ target }) => setnewBlogAuthor(target.value)}
+          // handlenewBlogUrl={({ target }) => setnewBlogUrl(target.value)}
           handleAddBlog={handleAddBlog}
         />
       </Togglable>
