@@ -40,7 +40,7 @@ export const initializedBlog = () => {
 export const handleAddBlog = (blog) => {
   return async (dispatch) => {
     const token = localStorage.getItem("user");
-    console.log("Retrieved token:", token); // Ensure this line is executing
+    console.log("Retrieved token:", token);
 
     const newBlog = await blogService.create(blog, token);
     dispatch(appendBlog(newBlog));

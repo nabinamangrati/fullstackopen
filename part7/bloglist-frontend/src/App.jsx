@@ -10,23 +10,25 @@ import Notification from "./components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import { initializedBlog, handleAddBlog } from "./reducers/blogReducer";
 import { setNotification } from "./reducers/notificationReducer";
+import { setUser } from "./reducers/userReducer";
 
 const App = () => {
   const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs);
-  // const [blogs, setBlogs] = useState([]);
+  const user = useSelector((state) => state.user);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   // const [notification, setNotification] = useState("");
-  const [error, setErrorMessage] = useState("");
+  // const [error, setErrorMessage] = useState("");
 
   const BlogFormRef = useRef();
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("user");
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      let user = setUser(JSON.parse(loggedUserJSON));
+      dispatch(user);
       blogService.setToken(user.token);
       // fetchBlogs(user.token);
       dispatch(initializedBlog());
@@ -51,17 +53,15 @@ const App = () => {
         password,
       });
       console.log(user, "user form app");
-      setUser(user);
+      dispatch(setUser(user));
       window.localStorage.setItem("user", JSON.stringify(user));
       blogService.setToken(user.token);
       fetchBlogs(user.token);
       setUsername("");
       setPassword("");
+      dispatch(setNotification(`${user.name} has login successfully`, 3));
     } catch (error) {
-      setErrorMessage(`Wrong username or password`);
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 5000);
+      dispatch(setNotification("wrong username or password", 3));
       setUsername("");
       setPassword("");
     }
@@ -110,7 +110,9 @@ const App = () => {
     }
   };
   const handleLogout = () => {
-    setUser(null);
+    dispatch(setUser(null));
+    dispatch(initializedBlog([]));
+
     // setBlogs([]);
     setUsername("");
     setPassword("");
@@ -128,7 +130,6 @@ const App = () => {
     return (
       <>
         <h2>login</h2>
-        <Notification />
         <Togglable buttonLabel="show login">
           <LoginForm
             username={username}
@@ -165,7 +166,6 @@ const App = () => {
       )}
       {user === null && loginForm()}
       {user !== null && blogForm()}
-
       <ul>
         {blogs
           // .sort((a, b) => b.likes - a.likes)
