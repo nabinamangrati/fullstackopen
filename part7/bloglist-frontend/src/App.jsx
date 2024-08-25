@@ -7,13 +7,18 @@ import LoginForm from "./components/LoginForm";
 import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
+import { useDispatch, useSelector } from "react-redux";
+import { initializedBlog, handleAddBlog } from "./reducers/blogReducer";
+import { setNotification } from "./reducers/notificationReducer";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blogs);
+  // const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState("");
+  // const [notification, setNotification] = useState("");
   const [error, setErrorMessage] = useState("");
 
   const BlogFormRef = useRef();
@@ -23,7 +28,8 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
       blogService.setToken(user.token);
-      fetchBlogs(user.token);
+      // fetchBlogs(user.token);
+      dispatch(initializedBlog());
     }
   }, []);
 
@@ -77,74 +83,68 @@ const App = () => {
       console.log(error);
     }
   };
-  const handleAddBlog = async (newBlog) => {
-    // const handleAddBlog = async (event) => {
-    // event.preventDefault();
-    // const newBlog = {
-    //   title: newBlogTitle,
-    //   author: newBlogAuthor,
-    //   url: newBlogUrl,
-    // };
-    // console.log("newblog from the handleblog", newBlog);
-    BlogFormRef.current.toggleVisibility();
+
+  // const handleAddBlog = async (newBlog) => {
+  //   BlogFormRef.current.toggleVisibility();
+  //   try {
+  //     //send new blogs to backend
+  //     const createdBlog = await blogService.create(newBlog);
+  //     //add new blogs to blogs state
+  //     setBlogs([...blogs, createdBlog]);
+
+  //     setNotificationMessage(
+  //       `a new blog "${createdBlog.title}"by ${createdBlog.author} added`
+  //     );
+  //   } catch (error) {
+  //     // Set error notification
+  //     setNotificationMessage("Failed to add new blog");
+  //     console.error("Add blog error:", error);
+  //   }
+  // };
+  const handleAddblog = async (newBlog) => {
     try {
-      //send new blogs to backend
-      const createdBlog = await blogService.create(newBlog);
-      //add new blogs to blogs state
-      setBlogs([...blogs, createdBlog]);
-      // setnewBlogTitle("");
-      // setnewBlogAuthor("");
-      // setnewBlogUrl("");
-      setNotificationMessage(
-        `a new blog "${createdBlog.title}"by ${createdBlog.author} added`
-      );
+      await dispatch(handleAddBlog(newBlog));
+      dispatch(setNotification(`Added new blog successfully`, 3));
     } catch (error) {
-      // Set error notification
-      setNotificationMessage("Failed to add new blog");
-      console.error("Add blog error:", error);
+      dispatch(setNotification(`Error adding new blog`, 3));
     }
   };
-
   const handleLogout = () => {
     setUser(null);
-    setBlogs([]);
+    // setBlogs([]);
     setUsername("");
     setPassword("");
     window.localStorage.removeItem("user");
   };
 
-  const setNotificationMessage = (message) => {
-    setNotification(message);
-    setTimeout(() => {
-      setNotification("");
-    }, 5000); // Clear notification after 5 seconds
-  };
+  // const setNotificationMessage = (message) => {
+  //   setNotification(message);
+  //   setTimeout(() => {
+  //     setNotification("");
+  //   }, 5000); // Clear notification after 5 seconds
+  // };
 
   const loginForm = () => {
     return (
-      <Togglable buttonLabel="show login">
-        <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleLogin={handleLogin}
-        />
-      </Togglable>
+      <>
+        <h2>login</h2>
+        <Notification />
+        <Togglable buttonLabel="show login">
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleLogin={handleLogin}
+          />
+        </Togglable>
+      </>
     );
   };
   const blogForm = () => {
     return (
       <Togglable buttonLabel="new blog" ref={BlogFormRef}>
-        <BlogForm
-          // newBlogTitle={newBlogTitle}
-          // newBlogAuthor={newBlogAuthor}
-          // newBlogUrl={newBlogUrl}
-          // handlenewBlogTitle={({ target }) => setnewBlogTitle(target.value)}
-          // handlenewBlogAuthor={({ target }) => setnewBlogAuthor(target.value)}
-          // handlenewBlogUrl={({ target }) => setnewBlogUrl(target.value)}
-          handleAddBlog={handleAddBlog}
-        />
+        <BlogForm handleAddBlog={handleAddblog} />
       </Togglable>
     );
   };
@@ -153,8 +153,8 @@ const App = () => {
     <>
       <Notification />
       <h2>Blogs</h2>
-      {error && <div className="errorMessage">{error}</div>}
-      {notification && <div className="notification">{notification}</div>}
+      {/* {error && <div className="errorMessage">{error}</div>} */}
+      {/* {notification && <div className="notification">{notification}</div>} */}
       {user !== null && (
         <div>
           <p>{user.username} logged in</p>
@@ -168,12 +168,12 @@ const App = () => {
 
       <ul>
         {blogs
-          .sort((a, b) => b.likes - a.likes)
+          // .sort((a, b) => b.likes - a.likes)
           .map((blog) => (
             <Blog
               key={blog.id}
               blog={blog}
-              setBlogs={setBlogs}
+              // setBlogs={setBlogs}
               loggedInUser={user}
               handleLikes={handleLikes}
             />

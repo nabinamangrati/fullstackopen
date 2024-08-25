@@ -1,9 +1,17 @@
 import { useState } from "react";
-import blogService from "../services/blogs";
-import { useDispatch } from "react-redux";
+// import blogService from "../services/blogs";
+import { useDispatch, useSelector } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
-const Blog = ({ blog, setBlogs, loggedInUser, handleLikes }) => {
+import { increaseLike } from "../reducers/blogReducer";
+
+const Blog = ({
+  blog,
+  // setBlogs,
+  loggedInUser,
+  // handleLikes,
+}) => {
   const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blogs);
   const [showDetails, setShowDetails] = useState("");
   const blogStyle = {
     paddingTop: 10,
@@ -23,20 +31,26 @@ const Blog = ({ blog, setBlogs, loggedInUser, handleLikes }) => {
     setShowDetails(!showDetails);
   };
 
-  const handleDelete = async (blog) => {
-    const confirmation = window.confirm(
-      `Remove blog ${blog.title} by ${blog.author}`
-    );
-    if (confirmation) {
-      try {
-        await blogService.deleteBlog(blog.id);
-        setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
-        dispatch(setNotification("Blog deleted successfully!", 3));
-      } catch (error) {
-        console.error("Error deleting blog:", error);
-      }
-    }
+  const handleLikes = (id) => {
+    const updatedLike = blogs.find((blog) => blog.id === id);
+    dispatch(increaseLike(id));
+    dispatch(setNotification(`you have like ${updatedLike.title}`, 3));
   };
+
+  // const handleDelete = async (blog) => {
+  //   const confirmation = window.confirm(
+  //     `Remove blog ${blog.title} by ${blog.author}`
+  //   );
+  //   if (confirmation) {
+  //     try {
+  //       await blogService.deleteBlog(blog.id);
+  //       setBlogs((blogs) => blogs.filter((item) => item.id !== blog.id));
+  //       dispatch(setNotification("Blog deleted successfully!", 3));
+  //     } catch (error) {
+  //       console.error("Error deleting blog:", error);
+  //     }
+  //   }
+  // };
 
   return (
     <div style={blogStyle} className="blog-div">
