@@ -36,7 +36,7 @@ const App = () => {
   const fetchBlogs = async (token) => {
     try {
       const blogs = await blogService.getAll(token);
-      setBlogs(blogs);
+      // setBlogs(blogs);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }

@@ -2,7 +2,7 @@ import { useState } from "react";
 // import blogService from "../services/blogs";
 import { useDispatch, useSelector } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
-import { increaseLike } from "../reducers/blogReducer";
+import { increaseLike, deletedBlog } from "../reducers/blogReducer";
 
 const Blog = ({
   blog,
@@ -52,6 +52,17 @@ const Blog = ({
   //   }
   // };
 
+  const handleDelete = async (id) => {
+    const blogToRemove = blogs.find((blog) => blog.id === id);
+    const confirmation = window.confirm(
+      "Do you really want to remove this blog?"
+    );
+    if (confirmation) {
+      dispatch(deletedBlog(id));
+    }
+    dispatch(setNotification(`${blogToRemove.title} deleted successfully!`, 3));
+  };
+
   return (
     <div style={blogStyle} className="blog-div">
       <div>
@@ -79,7 +90,7 @@ const Blog = ({
             {loggedInUser.id === blog.user ||
             loggedInUser.id === blog.user.id ? (
               <button
-                onClick={() => handleDelete(blog)}
+                onClick={() => handleDelete(blog.id)}
                 style={blogStyle.removebutton}
                 id="remove"
               >
