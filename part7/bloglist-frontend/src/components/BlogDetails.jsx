@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 export const BlogDetails = ({ singleBlog, blogs }) => {
   const dispatch = useDispatch();
   const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     axios
@@ -21,6 +22,19 @@ export const BlogDetails = ({ singleBlog, blogs }) => {
     const updatedLike = blogs.find((blog) => blog.id === id);
     dispatch(increaseLike(id));
     dispatch(setNotification(`you have like ${updatedLike.title}`, 3));
+  };
+
+  const handleAddComment = (event) => {
+    event.preventDefault();
+    axios
+      .post(`http://localhost:3003/api/blogs/${singleBlog.id}/comments`, {
+        content: newComment,
+      })
+      .then((response) => {
+        setComments(comments.concat(response.data));
+        console.log(response.data.content, "response.data");
+        setNewComment("");
+      });
   };
 
   return (
@@ -47,6 +61,15 @@ export const BlogDetails = ({ singleBlog, blogs }) => {
             return <li key={comment.id}>{comment.content}</li>;
           })}
         </ul>
+        <form onSubmit={handleAddComment}>
+          <input
+            value={newComment}
+            onChange={(event) => setNewComment(event.target.value)}
+            type="text"
+            placeholder="Add a comment"
+          />
+          <button type="submit">Submit</button>
+        </form>
       </div>
     </div>
   );
