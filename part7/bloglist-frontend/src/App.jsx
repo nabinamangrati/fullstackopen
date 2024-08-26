@@ -11,6 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { initializedBlog, handleAddBlog } from "./reducers/blogReducer";
 import { setNotification } from "./reducers/notificationReducer";
 import { setUser } from "./reducers/userReducer";
+import { Routes, Route, Link } from "react-router-dom";
+import User from "./components/User";
+import Home from "./home/Home";
+import userService from "./services/users";
+import { UserInfo } from "./components/UserInfo";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,20 +24,25 @@ const App = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [user, setUser] = useState(null);
-  // const [notification, setNotification] = useState("");
-  // const [error, setErrorMessage] = useState("");
+  const [listOfUser, setListOfUser] = useState([]);
 
   const BlogFormRef = useRef();
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("user");
     if (loggedUserJSON) {
       let user = setUser(JSON.parse(loggedUserJSON));
-      dispatch(user);
+      dispatch(setUser(user));
       blogService.setToken(user.token);
-      // fetchBlogs(user.token);
+      fetchBlogs(user.token);
       dispatch(initializedBlog());
+      console.log(loggedUserJSON, "loggedUserJSON");
     }
+  }, []);
+
+  useEffect(() => {
+    userService.getAll().then((result) => {
+      setListOfUser(result);
+    });
   }, []);
 
   const fetchBlogs = async (token) => {
@@ -54,6 +64,7 @@ const App = () => {
       });
       console.log(user, "user form app");
       dispatch(setUser(user));
+      console.log(user, "user from app");
       window.localStorage.setItem("user", JSON.stringify(user));
       blogService.setToken(user.token);
       fetchBlogs(user.token);
@@ -66,41 +77,7 @@ const App = () => {
       setPassword("");
     }
   };
-  const handleLikes = async (blogs) => {
-    const blogToUpdate = { ...blogs, likes: blogs.likes + 1 };
-    try {
-      const response = await blogService.update(blogToUpdate.id, blogToUpdate);
-      console.log(response, "response from Blog.jsx");
-      setBlogs((prev) => {
-        return prev.map((oldblogs) => {
-          if (oldblogs.id === response.id) {
-            return response;
-          }
-          return oldblogs;
-        });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  // const handleAddBlog = async (newBlog) => {
-  //   BlogFormRef.current.toggleVisibility();
-  //   try {
-  //     //send new blogs to backend
-  //     const createdBlog = await blogService.create(newBlog);
-  //     //add new blogs to blogs state
-  //     setBlogs([...blogs, createdBlog]);
-
-  //     setNotificationMessage(
-  //       `a new blog "${createdBlog.title}"by ${createdBlog.author} added`
-  //     );
-  //   } catch (error) {
-  //     // Set error notification
-  //     setNotificationMessage("Failed to add new blog");
-  //     console.error("Add blog error:", error);
-  //   }
-  // };
   const handleAddblog = async (newBlog) => {
     try {
       await dispatch(handleAddBlog(newBlog));
@@ -118,13 +95,6 @@ const App = () => {
     setPassword("");
     window.localStorage.removeItem("user");
   };
-
-  // const setNotificationMessage = (message) => {
-  //   setNotification(message);
-  //   setTimeout(() => {
-  //     setNotification("");
-  //   }, 5000); // Clear notification after 5 seconds
-  // };
 
   const loginForm = () => {
     return (
@@ -150,35 +120,46 @@ const App = () => {
     );
   };
 
+  const padding = {
+    padding: 5,
+  };
+  console.log(user, "user");
   return (
     <>
       <Notification />
-      <h2>Blogs</h2>
-      {/* {error && <div className="errorMessage">{error}</div>} */}
-      {/* {notification && <div className="notification">{notification}</div>} */}
-      {user !== null && (
-        <div>
-          <p>{user.username} logged in</p>
-          <button onClick={handleLogout} id="logout-button">
-            Logout
-          </button>
-        </div>
-      )}
-      {user === null && loginForm()}
-      {user !== null && blogForm()}
-      <ul>
-        {blogs
-          // .sort((a, b) => b.likes - a.likes)
-          .map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              // setBlogs={setBlogs}
-              loggedInUser={user}
-              handleLikes={handleLikes}
+      {console.log(user, "user")}
+      <nav>
+        <Link style={padding} to="/">
+          Blogs
+        </Link>
+        <Link style={padding} to="/users">
+          Users
+        </Link>
+      </nav>
+      <Routes>
+        <Route
+          path="/users"
+          element={
+            <User
+              listOfUser={listOfUser}
+              user={user}
+              handleLogout={handleLogout}
             />
-          ))}
-      </ul>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <Home
+              user={user}
+              loginForm={loginForm}
+              handleLogout={handleLogout}
+              blogForm={blogForm}
+              blogs={blogs}
+            />
+          }
+        />
+      </Routes>
     </>
   );
 };

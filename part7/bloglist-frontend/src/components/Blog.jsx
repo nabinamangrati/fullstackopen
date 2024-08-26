@@ -83,7 +83,7 @@ const Blog = ({
             </button>
           </div>
 
-          {blog.user.name}
+          {/* {blog.user.name} */}
           {console.log(loggedInUser, "loggedInUser")}
           {console.log(blog, "blog")}
           <div>
