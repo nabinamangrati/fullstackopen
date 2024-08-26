@@ -1,7 +1,11 @@
 import React from "react";
 // import { UserInfo } from "./UserInfo";
+import { Link } from "react-router-dom";
 const User = ({ listOfUser, user, handleLogout }) => {
   console.log(user, "user from user");
+  if (!user) {
+    return null;
+  }
   return (
     <div>
       <h2>Users</h2>
@@ -17,7 +21,9 @@ const User = ({ listOfUser, user, handleLogout }) => {
         <tbody>
           {listOfUser.map((user) => (
             <tr key={user.id}>
-              <td>{user.name}</td>
+              <td>
+                <Link to={`/users/${user.id}`}>{user.name}</Link>
+              </td>
               <td>{user.blog.length}</td>
             </tr>
           ))}

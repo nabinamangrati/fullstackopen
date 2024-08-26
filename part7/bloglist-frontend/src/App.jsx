@@ -11,11 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { initializedBlog, handleAddBlog } from "./reducers/blogReducer";
 import { setNotification } from "./reducers/notificationReducer";
 import { setUser } from "./reducers/userReducer";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useMatch } from "react-router-dom";
 import User from "./components/User";
 import Home from "./home/Home";
 import userService from "./services/users";
-import { UserInfo } from "./components/UserInfo";
+import { ListOfUser } from "./components/ListOfUser";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -40,10 +40,20 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    console.log("useEffect triggered");
     userService.getAll().then((result) => {
+      console.log(result, "Fetched users with blogs");
       setListOfUser(result);
     });
   }, []);
+
+  const matchUser = useMatch("/users/:id");
+
+  const singleUser = matchUser
+    ? listOfUser.find((user) => user.id === matchUser.params.id)
+    : null;
+
+  console.log(singleUser, "single user");
 
   const fetchBlogs = async (token) => {
     try {
@@ -123,11 +133,9 @@ const App = () => {
   const padding = {
     padding: 5,
   };
-  console.log(user, "user");
   return (
     <>
       <Notification />
-      {console.log(user, "user")}
       <nav>
         <Link style={padding} to="/">
           Blogs
@@ -146,6 +154,10 @@ const App = () => {
               handleLogout={handleLogout}
             />
           }
+        />
+        <Route
+          path="/users/:id"
+          element={<ListOfUser singleUser={singleUser} />}
         />
         <Route
           path="/"
