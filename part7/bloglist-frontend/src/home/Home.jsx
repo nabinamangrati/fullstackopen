@@ -3,6 +3,8 @@ import React from "react";
 import Blog from "../components/Blog";
 
 const Home = ({ user, loginForm, handleLogout, blogForm, blogs }) => {
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
+
   return (
     <div>
       {user === null ? (
@@ -17,7 +19,7 @@ const Home = ({ user, loginForm, handleLogout, blogForm, blogs }) => {
           {user.name} logged in
           <button onClick={handleLogout}>logout</button>
           {blogForm()}
-          {blogs.map((blog) => (
+          {sortedBlogs.map((blog) => (
             <Blog key={blog.id} blog={blog} loggedInUser={user} />
           ))}
         </>
