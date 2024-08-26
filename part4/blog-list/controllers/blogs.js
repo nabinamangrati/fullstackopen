@@ -1,6 +1,8 @@
 const app = require("express").Router();
 const Blog = require("../models/blog");
 const User = require("../models/user");
+const Comment = require("../models/comment");
+
 const jwt = require("jsonwebtoken");
 // const { tokenExtractor } = require("../utils/middleware");
 
@@ -126,5 +128,32 @@ app.put("/:id", async (request, response) => {
 
   response.status(200).json(result).end();
   console.log(response, "rrsponse");
+});
+
+app.get("/:id/comments", async (request, response) => {
+  const blog = await Blog.findById(request.params.id).populate("comments");
+  if (!blog) {
+    return response.status(404).json({ error: "Blog not found" });
+  }
+  response.json(blog.comments);
+});
+
+app.post("/:id/comments", async (request, response) => {
+  const blog = await Blog.findById(request.params.id);
+  if (!blog) {
+    return response.status(404).json({ error: "Blog not found" });
+  }
+
+  const comment = new Comment({
+    content: request.body.content,
+    blog: blog._id,
+  });
+
+  const savedComment = await comment.save();
+
+  blog.comments = blog.comments.concat(savedComment._id);
+  await blog.save();
+
+  response.status(201).json(savedComment);
 });
 module.exports = app;

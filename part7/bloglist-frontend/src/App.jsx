@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { initializedBlog, handleAddBlog } from "./reducers/blogReducer";
 import { setNotification } from "./reducers/notificationReducer";
 import { setUser } from "./reducers/userReducer";
-import { Routes, Route, Link, useMatch } from "react-router-dom";
+import { Routes, Route, Link, useMatch, useNavigate } from "react-router-dom";
 import User from "./components/User";
 import Home from "./home/Home";
 import userService from "./services/users";
@@ -22,6 +22,7 @@ const App = () => {
   const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs);
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -100,13 +101,14 @@ const App = () => {
     }
   };
   const handleLogout = () => {
-    dispatch(setUser(null));
+    window.localStorage.removeItem("user");
     dispatch(initializedBlog([]));
 
     // setBlogs([]);
     setUsername("");
     setPassword("");
-    window.localStorage.removeItem("user");
+    dispatch(setUser(null));
+    navigate("/");
   };
 
   const loginForm = () => {
