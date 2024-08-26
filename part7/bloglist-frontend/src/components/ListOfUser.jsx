@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 export const ListOfUser = ({ singleUser }) => {
   if (!singleUser) return null;
   console.log(singleUser.blog, "Single user data");
@@ -12,7 +12,10 @@ export const ListOfUser = ({ singleUser }) => {
       {singleUser.blog && (
         <ul>
           {singleUser.blog.map((blog) => (
-            <li key={blog.id}>{blog.title}</li>
+            <li key={blog.id}>
+              {/* {blog.title} */}
+              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+            </li>
           ))}
         </ul>
       )}

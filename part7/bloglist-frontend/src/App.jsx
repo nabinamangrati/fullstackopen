@@ -16,6 +16,7 @@ import User from "./components/User";
 import Home from "./home/Home";
 import userService from "./services/users";
 import { ListOfUser } from "./components/ListOfUser";
+import { BlogDetails } from "./components/BlogDetails";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -53,12 +54,14 @@ const App = () => {
     ? listOfUser.find((user) => user.id === matchUser.params.id)
     : null;
 
-  console.log(singleUser, "single user");
+  const matchBlog = useMatch("/blogs/:id");
+  const singleBlog = matchBlog
+    ? blogs.find((blog) => blog.id === matchBlog.params.id)
+    : null;
 
   const fetchBlogs = async (token) => {
     try {
       const blogs = await blogService.getAll(token);
-      // setBlogs(blogs);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }
@@ -158,6 +161,10 @@ const App = () => {
         <Route
           path="/users/:id"
           element={<ListOfUser singleUser={singleUser} />}
+        />
+        <Route
+          path="blogs/:id"
+          element={<BlogDetails singleBlog={singleBlog} blogs={blogs} />}
         />
         <Route
           path="/"
