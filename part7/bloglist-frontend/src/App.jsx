@@ -117,6 +117,7 @@ const App = () => {
             handleUsernameChange={({ target }) => setUsername(target.value)}
             handlePasswordChange={({ target }) => setPassword(target.value)}
             handleLogin={handleLogin}
+            user={user}
           />
         </Togglable>
       </>
@@ -134,7 +135,7 @@ const App = () => {
     padding: 5,
   };
   return (
-    <>
+    <div className="container">
       <Notification />
       <nav>
         <Link style={padding} to="/">
@@ -176,7 +177,7 @@ const App = () => {
           }
         />
       </Routes>
-    </>
+    </div>
   );
 };
 

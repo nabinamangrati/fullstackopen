@@ -58,7 +58,7 @@ const Blog = ({ blog, loggedInUser }) => {
             </button>
           </div>
 
-          {blog.user.name}
+          {/* {blog.user.name} */}
 
           <div>
             {loggedInUser.id === blog.user ||

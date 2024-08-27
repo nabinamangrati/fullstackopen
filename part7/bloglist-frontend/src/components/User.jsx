@@ -1,6 +1,7 @@
 import React from "react";
 // import { UserInfo } from "./UserInfo";
 import { Link } from "react-router-dom";
+import { Table } from "react-bootstrap";
 const User = ({ listOfUser, user, handleLogout }) => {
   console.log(user, "user from user");
   if (!user) {
@@ -11,7 +12,7 @@ const User = ({ listOfUser, user, handleLogout }) => {
       <h2>Users</h2>
       {user.name} logged in
       <button onClick={handleLogout}>logout</button>
-      <table>
+      <Table striped>
         <thead>
           <tr>
             <th>Name</th>
@@ -28,7 +29,7 @@ const User = ({ listOfUser, user, handleLogout }) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 };
