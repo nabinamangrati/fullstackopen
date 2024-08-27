@@ -32,19 +32,16 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("user");
     if (loggedUserJSON) {
-      let user = setUser(JSON.parse(loggedUserJSON));
+      let user = JSON.parse(loggedUserJSON);
       dispatch(setUser(user));
       blogService.setToken(user.token);
       fetchBlogs(user.token);
       dispatch(initializedBlog());
-      console.log(loggedUserJSON, "loggedUserJSON");
     }
   }, []);
 
   useEffect(() => {
-    console.log("useEffect triggered");
     userService.getAll().then((result) => {
-      console.log(result, "Fetched users with blogs");
       setListOfUser(result);
     });
   }, []);
@@ -76,10 +73,8 @@ const App = () => {
         username,
         password,
       });
-      console.log(user, "user form app");
-      dispatch(setUser(user));
-      console.log(user, "user from app");
       window.localStorage.setItem("user", JSON.stringify(user));
+      dispatch(setUser(user));
       blogService.setToken(user.token);
       fetchBlogs(user.token);
       setUsername("");
