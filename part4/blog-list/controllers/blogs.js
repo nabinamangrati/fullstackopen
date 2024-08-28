@@ -131,7 +131,7 @@ app.put("/:id", async (request, response) => {
 });
 
 app.get("/:id/comments", async (request, response) => {
-  const blog = await Blog.findById(request.params.id).populate("comments");
+  const blog = await Blog.findById(request.params.id);
   if (!blog) {
     return response.status(404).json({ error: "Blog not found" });
   }

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
+// import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import "./index.css";
@@ -17,6 +17,7 @@ import Home from "./home/Home";
 import userService from "./services/users";
 import { ListOfUser } from "./components/ListOfUser";
 import { BlogDetails } from "./components/BlogDetails";
+import { Navigation, Page } from "./components/Button";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -135,49 +136,51 @@ const App = () => {
     padding: 5,
   };
   return (
-    <div className="container">
-      <Notification />
-      <nav>
-        <Link style={padding} to="/">
-          Blogs
-        </Link>
-        <Link style={padding} to="/users">
-          Users
-        </Link>
-      </nav>
-      <Routes>
-        <Route
-          path="/users"
-          element={
-            <User
-              listOfUser={listOfUser}
-              user={user}
-              handleLogout={handleLogout}
-            />
-          }
-        />
-        <Route
-          path="/users/:id"
-          element={<ListOfUser singleUser={singleUser} />}
-        />
-        <Route
-          path="blogs/:id"
-          element={<BlogDetails singleBlog={singleBlog} blogs={blogs} />}
-        />
-        <Route
-          path="/"
-          element={
-            <Home
-              user={user}
-              loginForm={loginForm}
-              handleLogout={handleLogout}
-              blogForm={blogForm}
-              blogs={blogs}
-            />
-          }
-        />
-      </Routes>
-    </div>
+    <Page>
+      <div className="container">
+        <Notification />
+        <Navigation>
+          <Link style={padding} to="/">
+            Blogs
+          </Link>
+          <Link style={padding} to="/users">
+            Users
+          </Link>
+        </Navigation>
+        <Routes>
+          <Route
+            path="/users"
+            element={
+              <User
+                listOfUser={listOfUser}
+                user={user}
+                handleLogout={handleLogout}
+              />
+            }
+          />
+          <Route
+            path="/users/:id"
+            element={<ListOfUser singleUser={singleUser} />}
+          />
+          <Route
+            path="blogs/:id"
+            element={<BlogDetails singleBlog={singleBlog} blogs={blogs} />}
+          />
+          <Route
+            path="/"
+            element={
+              <Home
+                user={user}
+                loginForm={loginForm}
+                handleLogout={handleLogout}
+                blogForm={blogForm}
+                blogs={blogs}
+              />
+            }
+          />
+        </Routes>
+      </div>
+    </Page>
   );
 };
 
